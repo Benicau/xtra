@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+{% set position = 3 %} {# menu anchor variable #}
+{% block title %}Admin Xtra Copy: Ajouter Imprimantes{% endblock %}
+{% block body %}
+<h1>Administation de Xtra Copy Tournai : Ajout Imprimante</h1>
+<div class="cadrePrincipal">
+<h2>Ajout d'une imprimante</h2>
+
+            {{form_start(form)}}
+            
+            <div class="form-groupe">
+                {{ form_label(form.Name) }}
+                {{ form_widget(form.Name) }}
+                {{ form_errors(form.Name) }}
+            </div>
+            <div class="form-groupe">
+                {{ form_label(form.numero) }}
+                {{ form_widget(form.numero) }}
+                {{ form_errors(form.numero) }}
+            </div>
+            
+             <div class="form-groupe">
+                {{ form_label(form.Ip) }}
+                {{ form_widget(form.Ip) }}
+                {{ form_errors(form.Ip) }}
+            </div>
+             <div class="form-groupe">
+                {{ form_label(form.mibColorA4) }}
+                {{ form_widget(form.mibColorA4) }}
+                {{ form_errors(form.mibColorA4) }}
+            </div>
+            <div class="form-groupe">
+                {{ form_label(form.MibColorA42) }}
+                {{ form_widget(form.MibColorA42) }}
+                {{ form_errors(form.MibColorA42) }}
+            </div>
+             <div class="form-groupe">
+                {{ form_label(form.mibColorA3) }}
+                {{ form_widget(form.mibColorA3) }}
+                {{ form_errors(form.mibColorA3) }}
+            </div>
+             <div class="form-groupe">
+                {{ form_label(form.mibBlackWitheA4) }}
+                {{ form_widget(form.mibBlackWitheA4) }}
+                {{ form_errors(form.mibBlackWitheA4) }}
+            </div>
+            <div class="form-groupe">
+                {{ form_label(form.MibBlackWitheA42) }}
+                {{ form_widget(form.MibBlackWitheA42) }}
+                {{ form_errors(form.MibBlackWitheA42) }}
+            </div>
+            <div class="form-groupe">
+                {{ form_label(form.mibBlackWitheA3) }}
+                {{ form_widget(form.mibBlackWitheA3) }}
+                {{ form_errors(form.mibBlackWitheA3) }}
+            </div>
+
+            <div class="button">
+             <button type="submit" class="send">Enregister</button>
+            
+            </div>
+            {{form_end(form)}}
+
+<a href="{{ path('indexPrint')}}" class="retour">Retour</a>
+</div>
+{% include "partials/_menuAdmin.html.twig" %}
+{% endblock %}

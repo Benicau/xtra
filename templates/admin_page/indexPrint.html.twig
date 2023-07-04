@@ -4,7 +4,7 @@
 {% block body %}
 <h1>Administation de Xtra Copy Tournai : Index Imprimantes</h1>
 <div class="cadrePrincipal">
-    <a href="" class="ajout">Ajouter une imprimante</a>
+    <a href="{{ path('addPrint')}}" class="ajout">Ajouter une imprimante</a>
     <div class="list">
         <table>
         <thead>
@@ -21,8 +21,8 @@
                 <td>{{imprimante.numero}}</td>
                 <td>{{imprimante.name}}</td>
                 <td>{{imprimante.ip}}</td>
-                <td class="link"><a href="" class="modif">Modifier</a>
-                    <a href="" class="delete">Supprimer</a>
+                <td class="link"><a href="{{path('editPrint',{'id': imprimante.id})}}" class="modif">Modifier</a>
+                    <a href="{{path('deletePrint',{'id': imprimante.id})}}" class="delete">Supprimer</a>
                 </td>
             </tr>
             {% endfor %}
