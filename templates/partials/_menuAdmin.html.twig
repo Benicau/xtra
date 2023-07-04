@@ -1,7 +1,18 @@
 <div class="menuAdmin">
+    <div class="logo">
+    <img src="{{ asset('logo/xtraLogo.png') }}" alt="Logo de xtra copy">
+    </div>
     <ul class="menuSup">
-        <li{% if position == 0 %} class="activate"{% endif %}><a href=""><i class="fa-solid fa-home"></i>Accueil</a></li>
-        <li{% if position == 1 %} class="activate"{% endif %}><a href=""><i class="fa-solid fa-gauge-high"></i>Parametres </a></li>
+        <li{% if position == 0 %} class="activate"{% endif %}><a href="{{ path('app_admin_page')}}"><i class="fa-solid fa-home"></i>Accueil</a></li>
+        <li{% if position == 1 %} class="activate"{% endif %}><a href=""><i class="fa-solid fa-user"></i>Utilisateurs</a></li>
         <li{% if position == 2 %} class="activate"{% endif %}><a href=""><i class="fa-solid fa-coins"></i>Comptabilité</a></li>
+        <li{% if position == 3 %} class="activate"{% endif %}><a href="{{ path('indexParametre')}}"><i class="fa-solid fa-gauge-high"></i>Paramètres </a></li>
+        
     </ul>
+    <div class="cadreConnect">
+    <a href="{{ path('app_logout')}}">Se déconneter</a>
+    <p>{{user.email}}</p>
+    </div>
 </div>
+
+

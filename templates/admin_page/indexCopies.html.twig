@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+{% set position = 3 %} {# menu anchor variable #}
+{% block title %}Admin Xtra Copy: Index Imprimantes{% endblock %}
+{% block body %}
+<h1>Administation de Xtra Copy Tournai : Index Imprimantes</h1>
+<div class="cadrePrincipal">
+    <h2>Prix des photocopies</h2>
+
+
+    <div class="list">
+
+        <div class="double">
+            <div class="tableau">
+            <h3>Copies couleurs</h3>
+                <table>
+                    
+                    <thead>
+                        <tr>
+                            <th>Début</th>
+                            <th>Fin</th>
+                            <th>Prix</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for color in colors %}
+                        <tr>
+                            <td>{{color.Begin}}</td>
+                            <td>{{color.End}}</td>
+                            <td>{{ color.Price | round(3) }} €</td>
+                            <td class="link"><a href="" class="modif">Modifier</a>
+                                <a href="" class="delete">Supprimer</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="tableau">
+            <h3>Copies N/B </h3>
+                <table>
+                    
+                    <thead>
+                        <tr>
+                            <th>Début</th>
+                            <th>Fin</th>
+                            <th>Prix</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for nb in nbs %}
+                        <tr>
+                            <td>{{nb.Begin}}</td>
+                            <td>{{nb.End}}</td>
+                            <td>{{ nb.Price | round(3) }} €</td>
+                            <td class="link"><a href="" class="modif">Modifier</a>
+                                <a href="" class="delete">Supprimer</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+            </div>
+
+        </div>
+    </div>
+    <a href="{{ path('indexParametre')}}" class="retour">Retour</a>
+</div>
+{% include "partials/_menuAdmin.html.twig" %}
+{% endblock %}
