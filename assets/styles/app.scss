@@ -28,7 +28,7 @@ h1 {
         .form-groupe{
             display: flex;
             flex-direction: column;
-            width: 60%;
+            width: 40%;
             margin: auto;
             margin-top: 10px;
             label{
@@ -50,6 +50,10 @@ h1 {
                 &:hover{
                     opacity: 1;
                 }
+            }
+            select{
+                height: 30px;
+                margin-bottom: 15px;
             }
         }
         .button{
@@ -172,7 +176,7 @@ h1 {
                     font-size: 25px;
                     margin-bottom: 25px;
                 }
-                width: 47%;
+                width: 48%;
             }   
         }
        

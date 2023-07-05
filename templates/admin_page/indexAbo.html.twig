@@ -2,34 +2,34 @@
 {% set position = 3 %} {# menu anchor variable #}
 {% block title %}Admin Xtra Copy: Index Papiers{% endblock %}
 {% block body %}
-<h1>Administation de Xtra Copy Tournai : Index Papiers</h1>
+<h1>Administation de Xtra Copy Tournai : Index Abonnement</h1>
 <div class="cadrePrincipal">
 
    <div class="list">
-   <a href="{{ path('addpaper')}}" class='ajoute'>Ajouter</a>
+   <a href="{{ path('addAbonnement')}}" class='ajoute'>Ajouter</a>
         <table>
         <thead>
             <tr>
                 <th>Catégories</th>
-                <th>Nom</th>
                 <th>Prix</th>
+                <th>Nbr de copies</th>
                 <th>Actions</th>
             </tr>
        </thead>
         <tbody>
-            {% for paper in papers %}
+            {% for abo in abos %}
             <tr>
-                <td>{{paper.catTypePaper.catName}}</td>
-                <td>{{paper.Name}}</td>
-                <td>{{paper.Price | round(2)}}</td>
-                <td class="link"><a href="{{path('editPaper',{'id': paper.id})}}" class="modif">Modifier</a>
-                    <a href="{{path('deletepaper',{'id': paper.id})}}" class="delete">Supprimer</a>
+                <td>{{abo.catAbonnement.catName}}</td>
+                <td>{{abo.Price | round(2)}} €</td>
+                <td>{{abo.nbcopy}}</td>
+                
+                <td class="link"><a href="{{path('editAbonnement',{'id': abo.id})}}" class="modif">Modifier</a>
+                    <a href="{{path('deleteAbonnement',{'id': abo.id})}}" class="delete">Supprimer</a>
                 </td>
             </tr>
             {% endfor %}
         </tbody> 
         </table>
-        {{ knp_pagination_render(papers) }}
     </div>
     <a href="{{ path('indexParametre')}}" class="retour">Retour</a> 
 

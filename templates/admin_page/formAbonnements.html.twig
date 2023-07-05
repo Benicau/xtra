@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+{% set position = 3 %} {# menu anchor variable #}
+{% block title %}
+{% set title = '' %}
+{% if data.id is defined %}
+{% set title = 'Administation de Xtra Copy Tournai : Modification Abonnement' %}
+{% else %}
+{% set title = 'Administation de Xtra Copy Tournai : Ajout Abonnement' %}
+{% endif %}
+{{ title }}
+{% endblock %}
+{% block body %}
+{% if data.id is defined %}
+<h1>Administation de Xtra Copy Tournai : Modification abonnement</h1>
+{% else %}
+<h1>Administation de Xtra Copy Tournai : Ajouter abonnement</h1>
+{% endif %}
+<div class="cadrePrincipal">
+    {% if data.id is defined %}
+    <h2>Modification abonnement</h2>
+    {% else %}
+    <h2>Ajouter abonnement</h2>
+    {% endif %}
+    {{form_start(form)}}
+    <div class="form-groupe">
+        {{ form_label(form.nbcopy) }}
+        {{ form_widget(form.nbcopy) }}
+        {{ form_errors(form.nbcopy) }}
+    </div>
+    <div class="form-groupe">
+        {{ form_label(form.Price) }}
+        {{ form_widget(form.Price) }}
+        {{ form_errors(form.Price) }}
+    </div>
+    <div class="form-groupe">
+        {{ form_label(form.catAbonnement) }}
+        {{ form_widget(form.catAbonnement) }}
+        {{ form_errors(form.catAbonnement) }}
+    </div>
+    <div class="button">
+        <button type="submit" class="send">Enregister</button>
+    </div>
+    {{form_end(form)}}
+    <a href="{{ path('indexAbonnement')}}" class="retour">Retour</a>
+</div>
+{% include "partials/_menuAdmin.html.twig" %}
+{% endblock %}

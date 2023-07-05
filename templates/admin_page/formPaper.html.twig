@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+{% set position = 3 %} {# menu anchor variable #}
+{% block title %}
+{% set title = '' %}
+{% if data.id is defined %}
+{% set title = 'Administation de Xtra Copy Tournai : Modification type de papier' %}
+{% else %}
+{% set title = 'Administation de Xtra Copy Tournai : Ajout type de papier' %}
+{% endif %}
+{{ title }}
+{% endblock %}
+{% block body %}
+{% if data.id is defined %}
+<h1>Administation de Xtra Copy Tournai : Modification du type de papier : {{ data.Name }}</h1>
+{% else %}
+<h1>Administation de Xtra Copy Tournai : Ajout type de papier</h1>
+{% endif %}
+<div class="cadrePrincipal">
+    {% if data.id is defined %}
+    <h2>Modification d'une imprimante</h2>
+    {% else %}
+    <h2>Ajout d'une type de papier</h2>
+    {% endif %}
+    {{form_start(form)}}
+    <div class="form-groupe">
+        {{ form_label(form.Name) }}
+        {{ form_widget(form.Name) }}
+        {{ form_errors(form.Name) }}
+    </div>
+    <div class="form-groupe">
+        {{ form_label(form.Price) }}
+        {{ form_widget(form.Price) }}
+        {{ form_errors(form.Price) }}
+    </div>
+    <div class="form-groupe">
+        {{ form_label(form.catTypePaper) }}
+        {{ form_widget(form.catTypePaper) }}
+        {{ form_errors(form.catTypePaper) }}
+    </div>
+    <div class="button">
+        <button type="submit" class="send">Enregister</button>
+    </div>
+    {{form_end(form)}}
+    <a href="{{ path('indexPapers')}}" class="retour">Retour</a>
+</div>
+{% include "partials/_menuAdmin.html.twig" %}
+{% endblock %}

@@ -12,7 +12,7 @@
         <div class="double">
             <div class="tableau">
             <h3>Copies couleurs</h3>
-            <a href="" class='ajoute'>Ajouter</a>
+            <a href="{{ path('pricecoloradd')}}" class='ajoute'>Ajouter</a>
                 <table>
                     
                     <thead>
@@ -29,8 +29,8 @@
                             <td>{{color.Begin}}</td>
                             <td>{{color.End}}</td>
                             <td>{{ color.Price | round(3) }} €</td>
-                            <td class="link"><a href="" class="modif">Modifier</a>
-                                <a href="" class="delete">Supprimer</a>
+                            <td class="link"><a href="{{path('pricecoloredit',{'id': color.id})}}" class="modif">Modifier</a>
+                                <a href="{{path('pricecolordelete',{'id': color.id})}}" class="delete">Supprimer</a>
                             </td>
                         </tr>
                         {% endfor %}
@@ -39,7 +39,7 @@
             </div>
             <div class="tableau">
             <h3>Copies N/B </h3>
-            <a href="" class='ajoute'>Ajouter</a>
+            <a href="{{ path('pricenbadd')}}" class='ajoute'>Ajouter</a>
                 <table>
                     
                     <thead>
@@ -56,8 +56,8 @@
                             <td>{{nb.Begin}}</td>
                             <td>{{nb.End}}</td>
                             <td>{{ nb.Price | round(3) }} €</td>
-                            <td class="link"><a href="" class="modif">Modifier</a>
-                                <a href="" class="delete">Supprimer</a>
+                            <td class="link"><a href="{{path('pricenbedit',{'id': nb.id})}}" class="modif">Modifier</a>
+                                <a href="{{path('pricenbdelete',{'id': nb.id})}}" class="delete">Supprimer</a>
                             </td>
                         </tr>
                         {% endfor %}
