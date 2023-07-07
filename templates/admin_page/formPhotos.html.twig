@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+{% set position = 3 %} {# menu anchor variable #}
+{% block title %}
+{% set title = '' %}
+{% if data.id is defined %}
+{% set title = 'Administation de Xtra Copy Tournai : Modification prix service photos' %}
+{% else %}
+{% set title = 'Administation de Xtra Copy Tournai : Ajout un prix service photo' %}
+{% endif %}
+{{ title }}
+{% endblock %}
+{% block body %}
+{% if data.id is defined %}
+<h1>Administation de Xtra Copy Tournai : Modification prix photo : {{ data.Name }}</h1>
+{% else %}
+<h1>Administation de Xtra Copy Tournai : Ajout prix photo</h1>
+{% endif %}
+<div class="cadrePrincipal">
+    {% if data.id is defined %}
+    <h2>Modification prix photo</h2>
+    {% else %}
+    <h2>Ajout d'un prix photo</h2>
+    {% endif %}
+    {{form_start(form)}}
+    <div class="form-groupe">
+        {{ form_label(form.name) }}
+        {{ form_widget(form.name) }}
+        {{ form_errors(form.name) }}
+    </div>
+    <div class="form-groupe">
+        {{ form_label(form.price) }}
+        {{ form_widget(form.price) }}
+        {{ form_errors(form.price) }}
+    </div>
+    <div class="form-groupe">
+        {{ form_label(form.CatPhotos) }}
+        {{ form_widget(form.CatPhotos) }}
+        {{ form_errors(form.CatPhotos) }}
+    </div>
+    <div class="button">
+        <button type="submit" class="send">Enregister</button>
+    </div>
+    {{form_end(form)}}
+    <a href="{{ path('indexPhotos')}}" class="retour">Retour</a>
+</div>
+{% include "partials/_menuAdmin.html.twig" %}
+{% endblock %}

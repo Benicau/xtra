@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+{% set position = 3 %} {# menu anchor variable #}
+{% block title %}
+{% set title = '' %}
+{% if data.id is defined %}
+{% set title = 'Administation de Xtra Copy Tournai : Modification type de papier' %}
+{% else %}
+{% set title = 'Administation de Xtra Copy Tournai : Ajout type de papier' %}
+{% endif %}
+{{ title }}
+{% endblock %}
+{% block body %}
+{% if data.id is defined %}
+<h1>Administation de Xtra Copy Tournai : Modification reliures : {{ data.Name }}</h1>
+{% else %}
+<h1>Administation de Xtra Copy Tournai : Ajout reliures</h1>
+{% endif %}
+<div class="cadrePrincipal">
+    {% if data.id is defined %}
+    <h2>Modification reliures</h2>
+    {% else %}
+    <h2>Ajout d'une reliures</h2>
+    {% endif %}
+    {{form_start(form)}}
+    <div class="form-groupe">
+        {{ form_label(form.Name) }}
+        {{ form_widget(form.Name) }}
+        {{ form_errors(form.Name) }}
+    </div>
+    <div class="form-groupe">
+        {{ form_label(form.Price) }}
+        {{ form_widget(form.Price) }}
+        {{ form_errors(form.Price) }}
+    </div>
+    <div class="form-groupe">
+        {{ form_label(form.CatBindings) }}
+        {{ form_widget(form.CatBindings) }}
+        {{ form_errors(form.CatBindings) }}
+    </div>
+    <div class="button">
+        <button type="submit" class="send">Enregister</button>
+    </div>
+    {{form_end(form)}}
+    <a href="{{ path('indexReliures')}}" class="retour">Retour</a>
+</div>
+{% include "partials/_menuAdmin.html.twig" %}
+{% endblock %}

@@ -3,19 +3,25 @@
 namespace App\Controller;
 
 use App\Entity\Abonnements;
+use App\Entity\Bindings;
 use App\Entity\TypePaper;
 use App\Entity\Imprimantes;
+use App\Entity\Photos;
 use App\Entity\Pricecopynb;
 use App\Form\PaperFormType;
 use App\Entity\Pricecopycolor;
 use App\Form\AbonnementFormType;
+use App\Form\BindingFormType;
 use App\Form\ImprimanteFormType;
+use App\Form\PhotosFormType;
 use App\Form\PriceCopyColorFormType;
 use App\Form\PriceCopyNbFormType;
 use App\Repository\AbonnementsRepository;
+use App\Repository\BindingsRepository;
 use App\Repository\TypePaperRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\ImprimantesRepository;
+use App\Repository\PhotosRepository;
 use App\Repository\PricecopynbRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use App\Repository\PricecopycolorRepository;
@@ -124,12 +130,6 @@ class AdminPageController extends AbstractController
 
 
 
-
-
-
-
-
-
     #[Route('/parametres/copies', name: 'indexCopies')]
     public function copieIndex(PricecopycolorRepository $color, PricecopynbRepository $nb): Response
     {
@@ -143,10 +143,7 @@ class AdminPageController extends AbstractController
             'nbs' => $pricenb
             
             
-        ]);
-
-
-        
+        ]);  
     }
 
     #[Route('/parametres/copies/color/add', name: 'pricecoloradd')]
@@ -206,8 +203,6 @@ class AdminPageController extends AbstractController
     }
 
 
-
-
     #[Route('/parametres/copies/nb/add', name: 'pricenbadd')]
     public function printNbNew(EntityManagerInterface $manager, Request $request ): Response
     {
@@ -263,8 +258,6 @@ class AdminPageController extends AbstractController
         ]);
 
     }
-
-
 
 
 
@@ -336,6 +329,11 @@ class AdminPageController extends AbstractController
         ]);
 
     }
+
+
+
+
+    
 
 
 
@@ -441,4 +439,177 @@ class AdminPageController extends AbstractController
     }
 
 
+
+
+
+
+
+
+    #[Route('/parametres/reliures', name: 'indexReliures')]
+    public function bindingsIndex(BindingsRepository $bindings, PaginatorInterface $paginator, Request $request): Response
+    {
+        $user = $this->getUser();
+        $queryBuilder = $bindings->createQueryBuilder('p');
+        $pagination = $paginator->paginate(
+        $queryBuilder->getQuery(),
+        $request->query->getInt('page', 1),
+        8 // Number of results per page
+        );
+            
+         return $this->render('admin_page/indexBindings.html.twig', [
+            'user' => $user,
+            'paginations'=>$pagination
+         ]);
+        }
+    
+    #[Route('/parametres/reliures/{id}/delete', name: 'deleteReliures')]
+    public function bindingsDelete(EntityManagerInterface $manager, Bindings $bindings ): Response
+    {
+        $this->addFlash('success', "Reliure supprimé");     
+        $manager->remove($bindings);
+        $manager->flush();
+        return $this->redirectToRoute('indexReliures');
+    }
+
+    #[Route('/parametres/reliures/add', name: 'addReliures')]
+    public function bindingsAdd(EntityManagerInterface $manager, Request $request): Response
+    {
+        $data = new Bindings;
+        $form = $this->createForm(BindingFormType::class, $data);
+        $form->handleRequest($request);
+        $user = $this->getUser();
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $manager->persist($data);
+            $manager->flush();
+
+            $this->addFlash(
+                'success',
+                "Votre reliures a bien été créé"
+            );
+            return $this->redirectToRoute('indexReliures');
+        }
+        return $this->render('admin_page/formBindings.html.twig', ['form'=>$form->createView(), 'user'=>$user]);
+    }
+
+    #[Route('/parametres/reliures/{id}/edit', name: 'editReliures')]
+    public function bindingsEdit(EntityManagerInterface $manager, Bindings $data, Request $request):Response
+    {
+        $form = $this->createForm(BindingFormType::class, $data);
+        $form->handleRequest($request); 
+        $user = $this->getUser(); 
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $manager->persist($data);
+            $manager->flush();
+            $this->addFlash(
+                'success',
+                "Votre reliure a bien été modifiée"
+            );
+            return $this->redirectToRoute('indexReliures');
+        }
+        return $this->render('admin_page/formBindings.html.twig', [
+            "data" => $data,
+            'form'=>$form->createView(),
+            'user'=>$user
+            
+        ]);
+
+    }
+
+
+
+
+   
+    #[Route('/parametres/photos', name: 'indexPhotos')]
+    public function photosIndex(PhotosRepository $photos, PaginatorInterface $paginator, Request $request): Response
+    {
+        $user = $this->getUser();
+        $queryBuilder = $photos->createQueryBuilder('p');
+        $pagination = $paginator->paginate(
+        $queryBuilder->getQuery(),
+        $request->query->getInt('page', 1),
+        8 // Number of results per page
+        );
+            
+         return $this->render('admin_page/indexPhotos.html.twig', [
+            'user' => $user,
+            'paginations'=>$pagination
+         ]);
+        }
+    
+    #[Route('/parametres/photos/{id}/delete', name: 'deletePhotos')]
+    public function photosDelete(EntityManagerInterface $manager, Photos $photos ): Response
+    {
+        $this->addFlash('success', "Prix photos supprimé");     
+        $manager->remove($photos);
+        $manager->flush();
+        return $this->redirectToRoute('indexPhotos');
+    }
+
+    #[Route('/parametres/photos/add', name: 'addPhotos')]
+    public function photosAdd(EntityManagerInterface $manager, Request $request): Response
+    {
+        $data = new Photos;
+        $form = $this->createForm(PhotosFormType::class, $data);
+        $form->handleRequest($request);
+        $user = $this->getUser();
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $manager->persist($data);
+            $manager->flush();
+
+            $this->addFlash(
+                'success',
+                "Votre prix photo a bien été créé"
+            );
+            return $this->redirectToRoute('indexPhotos');
+        }
+        return $this->render('admin_page/formPhotos.html.twig', ['form'=>$form->createView(), 'user'=>$user]);
+    }
+
+    #[Route('/parametres/photos/{id}/edit', name: 'editPhotos')]
+    public function photosEdit(EntityManagerInterface $manager, Photos $data, Request $request):Response
+    {
+        $form = $this->createForm(PhotosFormType::class, $data);
+        $form->handleRequest($request); 
+        $user = $this->getUser(); 
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $manager->persist($data);
+            $manager->flush();
+            $this->addFlash(
+                'success',
+                "Votre prix photo a bien été modifiée"
+            );
+            return $this->redirectToRoute('indexPhotos');
+        }
+        return $this->render('admin_page/formPhotos.html.twig', [
+            "data" => $data,
+            'form'=>$form->createView(),
+            'user'=>$user
+            
+        ]);
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
 }
+
+
+
+
+        
+
+
+

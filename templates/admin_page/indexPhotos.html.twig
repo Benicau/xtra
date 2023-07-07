@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+{% set position = 3 %} {# menu anchor variable #}
+{% block title %}Admin Xtra Copy: Index Prix Photos {% endblock %}
+{% block body %}
+<h1>Administation de Xtra Copy Tournai : Index Prix Photos</h1>
+<div class="cadrePrincipal">
+
+   <div class="list">
+   <a href="{{ path('addPhotos')}}" class='ajoute'>Ajouter</a>
+        <table>
+        <thead>
+            <tr>
+                <th>Catégories</th>
+                <th>Nom</th>
+                <th>Prix</th>
+                <th>Actions</th>
+            </tr>
+       </thead>
+        <tbody>
+            {% for pagination in paginations %}
+            <tr>
+                <td>{{pagination.catPhotos.CatName}}</td>
+                <td>{{pagination.name}}</td>
+                <td>{{pagination.price | round(2)}}</td>
+                <td class="link"><a href="{{path('editPhotos',{'id': pagination.id})}}" class="modif">Modifier</a>
+                    <a href="{{path('deletePhotos',{'id': pagination.id})}}" class="delete">Supprimer</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody> 
+        </table>
+        {{ knp_pagination_render(paginations) }}
+    </div>
+    <a href="{{ path('indexParametre')}}" class="retour">Retour</a> 
+
+</div>
+{% include "partials/_menuAdmin.html.twig" %}
+{% endblock %}
