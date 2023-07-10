@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+{% set position = 1 %} {# menu anchor variable #}
+
+{% set title = 'Administation de Xtra Copy Tournai : Ajout users' %}
+
+{% block body %}
+
+<h1>Administation de Xtra Copy Tournai : Ajout User</h1>
+
+
+
+<div class="cadrePrincipal">
+    <h2>Ajouter User</h2>
+    {{form_start(form)}}
+    <div class="form-groupe">
+        {{ form_label(form.email) }}
+        {{ form_widget(form.email) }}
+        {{ form_errors(form.email) }}
+    </div>
+    <div class="form-groupe">
+        {{ form_label(form.roles) }}
+        {{ form_widget(form.roles) }}
+        {{ form_errors(form.roles) }}
+    </div>
+    <div class="form-groupe">
+        {{ form_label(form.password) }}
+        {{ form_widget(form.password) }}
+        {{ form_errors(form.password) }}
+    </div>
+    <div class="button">
+        <button type="submit" class="send">Enregister</button>
+    </div>
+    {{form_end(form)}}
+    <a href="{{ path('app_users')}}" class="retour">Retour</a>
+</div>
+{% include "partials/_menuAdmin.html.twig" %}
+{% endblock %}

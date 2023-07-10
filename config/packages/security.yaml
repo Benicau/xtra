@@ -1,3 +1,8 @@
+parameters:
+    default_redirect_route:
+        ROLE_WORKER: 'app_caisse_info'
+        default: 'user_dashboard'
+
 security:
     # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
     password_hashers:
@@ -19,8 +24,13 @@ security:
             custom_authenticator: App\Security\LoginXtraAuthenticator
             logout:
                 path: app_logout
+            
+            
+            
                 # where to redirect after logout
                 # target: app_any_route
+            
+
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
@@ -31,9 +41,10 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-         - { path: ^/admin, roles: ROLE_ADMIN }
-         - { path: ^/parametres, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/caisse, roles: [ROLE_ADMIN, ROLE_WORKER] }
+        - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/parametres, roles: ROLE_ADMIN }
+        
 
 when@test:
     security:

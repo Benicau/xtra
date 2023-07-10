@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+{% set position = 1 %} {# menu anchor variable #}
+{% block title %}Admin Xtra Copy: Index Reliures {% endblock %}
+{% block body %}
+<h1>Administation de Xtra Copy Tournai : Index Reliures</h1>
+<div class="cadrePrincipal">
+
+   <div class="list">
+   <a href="{{ path('app_worker_add')}}" class='ajoute'>Ajouter</a>
+        <table>
+        <thead>
+            <tr>
+                <th>Adresse mail</th>
+                <th>Rôles</th>
+                <th>Actions</th>
+            </tr>
+       </thead>
+        <tbody>
+        {% for pagination in paginations %}
+            <tr>
+                <td>{{pagination.email}}</td>
+                <td>{{pagination.roles|join(', ') }}</td>
+                <td class="link userlink">      
+                {% if (pagination.email != "benoit_caucheteux@hotmail.com") %}
+                    <a href="{{path('app_worker_delete',{'id': pagination.id})}}" class="delete">Supprimer</a>     
+                {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+            
+        </tbody> 
+        </table>
+         {{ knp_pagination_render(paginations) }}
+       
+    </div>
+    <a href="{{ path('app_admin_page')}}" class="retour">Retour</a> 
+
+</div>
+{% include "partials/_menuAdmin.html.twig" %}
+{% endblock %}
