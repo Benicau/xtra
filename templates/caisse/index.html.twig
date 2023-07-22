@@ -2,12 +2,19 @@
 {% block title %}Système de caisse de Xtra Copy: index{% endblock %}
 {% set position = 0 %} 
 {% block body %}
-<div class="info">
-    <h1>Caisse de Xtra Copy : Acceuil</h1>
-    <div class="cadreInfo">
-        
+<h1>Caisse de Xtra Copy : Acceuil</h1>
+<div class="cadrePrincipal">
+    <div class="menuIcone">
+        <ul>
+            <li><a href="{{ path('app_caisse_noCopie')}}"><i class="fa-solid fa-circle-xmark"></i>Pas copie</a></li>
+            <li><a href="{{ path('indexCopies')}}"><i class="fa-solid fa-copy"></i>Copies sans abonnement</a></li>
+            <li><a href="{{ path('indexAbonnement')}}"><i class="fa-solid fa-circle-user"></i></i>Copies avec abonnement</a></li>
+        </ul>
     </div>
-</div>
+
+</div>      
+    {% include "partials/_menuCaisse.html.twig" %}
+
 
 
 

@@ -1,0 +1,14 @@
+<div class="menuAdmin">
+    <div class="logo">
+    <img src="{{ asset('logo/xtraLogo.png') }}" alt="Logo de xtra copy">
+    </div>
+    <ul class="menuSup">
+        <li{% if position == 0 %} class="activate"{% endif %}><a href="{{ path('app_caisse_index')}}"><i class="fa-solid fa-clapperboard"></i>Scénarios</a></li>
+        <li{% if position == 1 %} class="activate"{% endif %}><a href="{{ path('app_users')}}"><i class="fa-solid fa-user"></i>Abonnés</a></li>
+        <li{% if position == 2 %} class="activate"{% endif %}><a href=""><i class="fa-solid fa-coins"></i>Comptabilité</a></li>    
+    </ul>
+    <div class="cadreConnect">
+    <a href="{{ path('app_logout')}}">Se déconneter</a>
+    <p>{{user.email}}</p>
+    </div>
+</div>

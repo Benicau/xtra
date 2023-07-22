@@ -31,12 +31,12 @@ class CatPhotos
         return $this->id;
     }
 
-    public function getCatName(): ?string
+    public function getName(): ?string
     {
         return $this->Name;
     }
 
-    public function setCatName(string $Name): static
+    public function setName(string $Name): static
     {
         $this->Name = $Name;
 

@@ -1,0 +1,75 @@
+{% extends 'base.html.twig' %}{# menu anchor variable #}
+{% block title %}Système de caisse de Xtra Copy: index{% endblock %}
+{% set position = 0 %}
+{% block body %}
+<h1>Caisse de Xtra Copy : Acceuil</h1>
+<div class="cadrePrincipal">
+    <h2>Caisse de <span>Xtra Copy</span> : Encodage</h2>
+    <div class="copie">
+        <div class="double">
+            <label for="">N/B</label>
+            <input type="number" placeholder=0>
+        </div>
+        <div class="double">
+            <label for="">Couleurs</label>
+            <input type="number" placeholder=0>
+        </div>
+    </div>
+    <div class="accordeon">
+        <div class="container-onglets">
+            <div class="onglets active" data-anim='1'>Reliures</div>
+            <div class="onglets" data-anim='2'>Papiers</div>
+            <div class="onglets" data-anim='3'>Photos</div>
+        </div>
+        <div class="reliures contenu activeContenu" data-anim='1'>
+            {% for catReliure in catReliures %}
+            <h3>{{catReliure.Name}}</h3>
+             <hr>
+            {% for reliure in reliures %}
+            {% if (catReliure.Name == reliure.CatBindings.Name) %}
+            <div class="content">
+                <p>{{reliure.Name}}</p>
+                <p>{{reliure.price}}€</p>
+            </div>
+            {% endif %}
+            {% endfor %}
+            {% endfor %}
+        </div>
+        <div class="papers contenu" data-anim='2'>
+            {% for catPaper in catPapers %}
+            <h3>{{catPaper.catName}}</h3>
+             <hr>
+            {% for paper in papers %}
+            {% if (catPaper.catName == paper.CatTypePaper.catName) %}
+            <div class="content">
+                <p>{{paper.Name}}</p>
+                <p>{{paper.price}}€</p>
+            </div>
+
+            {% endif %}
+            {% endfor %}
+            {% endfor %}
+        </div>
+        <div class="photos contenu" data-anim='3'>
+            {% for catPhoto in catPhotos %}
+            <h3>{{catPhoto.Name}}</h3>
+             <hr>
+            {% for photo in photos %}
+            {% if (catPhoto.Name == photo.CatPhotos.Name) %}
+            <div class="content">
+                <p>{{photo.Name}}</p>
+                <p>{{photo.price}}€</p>
+            </div>
+
+            {% endif %}
+            {% endfor %}
+            {% endfor %}
+        </div>
+    </div>
+    <a href="{{ path('app_caisse_index')}}" class="retour">Retour</a>
+</div>
+{% include "partials/_menuCaisse.html.twig" %}
+{% endblock %}
+{% block javascripts %}
+            {{ encore_entry_script_tags('caisse') }}
+{% endblock %}
