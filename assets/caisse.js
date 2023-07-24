@@ -35,7 +35,26 @@ onglets.forEach(onglet => {
 
 
 const inputs = document.querySelectorAll('.content input');
-const divers = document.querySelector('.autre .center input')
+const divers = document.querySelector('.autre .center input');
+const nbCopie = document.querySelector('#nb_noir_blanc')
+const colorCopie = document.querySelector('#nb_couleurs')
+
+
+nbCopie.addEventListener('input', function(){
+    if(nbCopie.value<0)
+    {
+        nbCopie.value=0
+    }
+    calcul ();
+})
+
+colorCopie.addEventListener('input', function(){
+    if(colorCopie.value<0)
+    {
+        colorCopie.value=0
+    }
+    calcul ();
+})
 
 
 divers.addEventListener('input', function(){
@@ -58,7 +77,8 @@ inputs.forEach((input) => {
   });
 
 
-  function calcul() {
+  function calcul() {  
+
     const datas = document.querySelectorAll('.content input');
     var total = 0;
     datas.forEach((input) => {
@@ -86,10 +106,70 @@ inputs.forEach((input) => {
     if(isNaN(value2))
     {
         value2=0
-    }    
-    total=total+value2
+    }  
+    
+    
+    const dataNb = document.querySelectorAll('.data-nb')
+    const dataColor = document.querySelectorAll('.data-color')
+    const nbCopie = document.querySelector('#nb_noir_blanc')
+    const colorCopie = document.querySelector('#nb_couleurs')
+    var nbitem = parseInt(nbCopie.value)
+    var coloritem = parseInt(colorCopie.value)
+    var priceColor = 0
+    var priceNb = 0
+    dataNb.forEach(nb=>{
+        const nbstart = parseInt(nb.getAttribute('data-start'));
+        const nbend = parseInt(nb.getAttribute('data-end'));
+        const nbprice = parseFloat(nb.getAttribute('data-price'));
+        if((nbitem >= nbstart)&&(nbitem <= nbend))
+        {
+            priceNb = nbprice
+        }
+    })
+
+    dataColor.forEach(color=>{
+        const colorstart = parseInt(color.getAttribute('data-start'));
+        const colorend = parseInt(color.getAttribute('data-end'));
+        const colorprice = parseFloat(color.getAttribute('data-price'));
+        if((coloritem >= colorstart)&&(coloritem <= colorend))
+        {
+            priceColor = colorprice
+        }  
+    })
+
+    var total2 = (nbitem*priceNb) + (coloritem*priceColor)
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+    total=total+value2+total2
     const affichage = document.querySelector('.total p span')
     const resultat = total.toFixed(2)
     affichage.innerHTML= resultat
+
+
+
+
+
+
+
   }
+
+
+calcul ();
+
+
+
+
 

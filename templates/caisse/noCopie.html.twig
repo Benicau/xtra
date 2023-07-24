@@ -8,11 +8,11 @@
     <div class="copie">
         <div class="double">
             <label for="nb_noir_blanc">N/B</label>
-            <input type="number" id="nb_noir_blanc" placeholder="0">
+            <input type="number" id="nb_noir_blanc" value=0>
         </div>
         <div class="double">
             <label for="nb_couleurs">Couleurs</label>
-            <input type="number" id="nb_couleurs" placeholder="0">
+            <input type="number" id="nb_couleurs" value=0>
         </div>
     </div>
     <div class="accordeon">
@@ -62,11 +62,22 @@
                 <p>{{ photo.price }}€</p>
                 <input type="number" value=0 dataprice={{ photo.price }} dataname="{{ photo.Name }}">
             </div>
+            
+            
             {% endif %}
             {% endfor %}
             {% endfor %}
+
         </div>
     </div>
+            {% for nb in nbs %}
+               <div class="data-nb" data-start="{{ nb.Begin}}" data-end="{{ nb.End}}" data-price="{{ nb.Price}}">
+            </div> 
+            {% endfor %}
+            {% for color in colors %}
+               <div class="data-color" data-start="{{ color.Begin}}" data-end="{{ color.End}}" data-price="{{ color.Price}}">
+            </div> 
+            {% endfor %}
     <div class="autre">
         <h3>Divers</h3>
         <div class="center">
