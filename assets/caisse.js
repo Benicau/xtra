@@ -40,12 +40,16 @@ const nbCopie = document.querySelector('#nb_noir_blanc')
 const colorCopie = document.querySelector('#nb_couleurs')
 
 
+
 nbCopie.addEventListener('input', function(){
     if(nbCopie.value<0)
     {
         nbCopie.value=0
     }
+    
+
     calcul ();
+
 })
 
 colorCopie.addEventListener('input', function(){
@@ -78,12 +82,14 @@ inputs.forEach((input) => {
 
 
   function calcul() {  
-
+    var texte = ''
     const datas = document.querySelectorAll('.content input');
     var total = 0;
     datas.forEach((input) => {
         var value = input.value;
         const data = input.getAttribute('dataprice');
+        const datas = input.getAttribute('dataname');
+        const cat = input.getAttribute('datacat');
         if (value=== '' )
         {
             value=0
@@ -92,7 +98,11 @@ inputs.forEach((input) => {
             value=0
             
         } 
+        if(value>0){
+            texte=texte+'<p>'+value+' '+cat+' '+datas+' '+data+'€ = <span>'+value*data+'€</span></p>'
+        }
     total = total + (data*value) 
+    console.log(texte)
     
     if(total <0 )
     {
@@ -107,7 +117,6 @@ inputs.forEach((input) => {
     {
         value2=0
     }  
-    
     
     const dataNb = document.querySelectorAll('.data-nb')
     const dataColor = document.querySelectorAll('.data-color')
@@ -138,25 +147,19 @@ inputs.forEach((input) => {
     })
 
     var total2 = (nbitem*priceNb) + (coloritem*priceColor)
-    
-    
-
-
-
-
-
-
-
-
-
-
-
 
 
     total=total+value2+total2
     const affichage = document.querySelector('.total p span')
-    const resultat = total.toFixed(2)
+    var resultat = total.toFixed(2)
+    if (isNaN(resultat)) {
+        resultat=0
+    } 
     affichage.innerHTML= resultat
+
+
+    const affichCaisse = document.querySelector('#affichage')
+    affichCaisse.innerHTML= texte
 
 
 

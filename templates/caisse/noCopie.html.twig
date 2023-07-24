@@ -30,7 +30,7 @@
             <div class="content">
                 <p>{{ reliure.Name }}</p>
                 <p>{{ reliure.price }}€</p>
-                <input type="number" value=0 dataprice={{ reliure.price }} dataname="{{ reliure.Name }}">
+                <input type="number" value=0 dataprice={{ reliure.price }} dataname="{{ reliure.Name }}" datacat="{{ reliure.CatBindings.Name}}">
             </div>
             {% endif %}
             {% endfor %}
@@ -87,6 +87,10 @@
     <div class="total">
         <h3>Total</h3>
         <p><span>0</span> €</p>
+    </div>
+    <div id="affichage">
+
+    
     </div>
     <a href="{{ path('app_caisse_index') }}" class="retour">Retour</a>
 </div>
