@@ -99,10 +99,10 @@ inputs.forEach((input) => {
             
         } 
         if(value>0){
-            texte=texte+'<p>'+value+' '+cat+' '+datas+' '+data+'€ = <span>'+value*data+'€</span></p>'
+            texte=texte+'<p>'+value+' '+cat+' '+datas+' ('+data+'€) = <span>'+value*data+'€</span></p>'
         }
     total = total + (data*value) 
-    console.log(texte)
+ 
     
     if(total <0 )
     {
@@ -117,6 +117,9 @@ inputs.forEach((input) => {
     {
         value2=0
     }  
+    if(value2>0){
+        texte=texte+'<p>Divers services Xtra-copy : <span>'+value2+'€</span></p>'
+    }
     
     const dataNb = document.querySelectorAll('.data-nb')
     const dataColor = document.querySelectorAll('.data-color')
@@ -132,7 +135,8 @@ inputs.forEach((input) => {
         const nbprice = parseFloat(nb.getAttribute('data-price'));
         if((nbitem >= nbstart)&&(nbitem <= nbend))
         {
-            priceNb = nbprice
+            priceNb = nbprice 
+            texte=texte+'<p>Nombre de copies N/B est de : '+nbitem+' * ('+priceNb+'€)<span>'+(nbitem*priceNb).toFixed(2)+'</span></p>'
         }
     })
 
@@ -143,6 +147,7 @@ inputs.forEach((input) => {
         if((coloritem >= colorstart)&&(coloritem <= colorend))
         {
             priceColor = colorprice
+            texte=texte+'<p>Nombre de copies couleur est de : '+coloritem+' * ('+priceColor+'€)<span>'+(coloritem*priceColor).toFixed(2)+'</span></p>'
         }  
     })
 
@@ -160,14 +165,23 @@ inputs.forEach((input) => {
 
     const affichCaisse = document.querySelector('#affichage')
     affichCaisse.innerHTML= texte
+    const textInvoice = document.querySelector('#invoice_form_texte')
+    textInvoice.value= texte
+    const totalInvoice = document.querySelector('#invoice_form_total')
+    totalInvoice.value = total
 
 
+    const send = document.querySelector(".send")
+    send.disabled = true
 
-
-
-
-
+    if(resultat>0)
+    {
+        send.disabled = false
+    }
   }
+
+const client = document.querySelector('#invoice_form_client')
+client.value = 0
 
 
 calcul ();

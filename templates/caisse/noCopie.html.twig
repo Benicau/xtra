@@ -45,7 +45,7 @@
             <div class="content">
                 <p>{{ paper.Name }}</p>
                 <p>{{ paper.price }}€</p>
-                <input type="number" value=0 dataprice={{ paper.price }} dataname="{{ paper.Name }}">
+                <input type="number" value=0 dataprice={{ paper.price }} dataname="{{ paper.Name }}" datacat="{{ catPaper.catName}}">
             </div>
             {% endif %}
             {% endfor %}
@@ -60,7 +60,7 @@
             <div class="content">
                 <p>{{ photo.Name }}</p>
                 <p>{{ photo.price }}€</p>
-                <input type="number" value=0 dataprice={{ photo.price }} dataname="{{ photo.Name }}">
+                <input type="number" value=0 dataprice={{ photo.price }} dataname="{{ photo.Name }}" datacat="{{ catPhoto.Name}}">
             </div>
             
             
@@ -89,8 +89,14 @@
         <p><span>0</span> €</p>
     </div>
     <div id="affichage">
-
-    
+    </div>
+    <div class="form">
+     {{ form_start(form) }}
+      {{ form_widget(form.paymentMethod) }}
+      <div class="buttonValid">
+            <button type="submit" class="send">Valider</button>
+        </div>
+    {{ form_end(form) }}
     </div>
     <a href="{{ path('app_caisse_index') }}" class="retour">Retour</a>
 </div>
