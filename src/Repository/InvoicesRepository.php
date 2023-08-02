@@ -39,6 +39,15 @@ class InvoicesRepository extends ServiceEntityRepository
         }
     }
 
+    public function findLatest(): ?Invoices
+    {
+        return $this->createQueryBuilder('i')
+            ->orderBy('i.id', 'DESC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
 //    /**
 //     * @return Invoices[] Returns an array of Invoices objects
 //     */

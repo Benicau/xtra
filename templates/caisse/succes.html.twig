@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}{# menu anchor variable #}
+{% block title %}Système de caisse de Xtra Copy: index{% endblock %}
+{% set position = 0 %}
+{% block body %}
+<h1>Caisse de Xtra Copy : Acceuil</h1>
+<div class="cadrePrincipal">
+    {% for message in app.flashes('success') %}
+    <div class="alert alert-success mt-2">
+        {{ message }}
+    </div>
+    {% endfor %}
+    <div class="menusuccess">
+        <ul>
+            <li>
+                <a href="{{ path('app_pdf')}}" target="_blank">Facture</a>
+            </li>
+            <li>
+                <a href="{{ path('app_caisse_index')}}">Suite</a>
+            </li>
+        </ul>
+    </div>
+
+
+</div>
+{% include "partials/_menuCaisse.html.twig" %}
+
+
+{% endblock %}

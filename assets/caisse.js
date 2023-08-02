@@ -118,7 +118,7 @@ inputs.forEach((input) => {
         value2=0
     }  
     if(value2>0){
-        texte=texte+'<p>Divers services Xtra-copy : <span>'+value2+'€</span></p>'
+        texte=texte+'<p>Divers services Xtra-copy = <span>'+value2+'€</span></p>'
     }
     
     const dataNb = document.querySelectorAll('.data-nb')
@@ -136,7 +136,7 @@ inputs.forEach((input) => {
         if((nbitem >= nbstart)&&(nbitem <= nbend))
         {
             priceNb = nbprice 
-            texte=texte+'<p>Nombre de copies N/B est de : '+nbitem+' * ('+priceNb+'€)<span>'+(nbitem*priceNb).toFixed(2)+'</span></p>'
+            texte=texte+'<p>Nombre de copies N/B est de : '+nbitem+' * ('+priceNb+'€) = <span>'+(nbitem*priceNb).toFixed(2)+'€</span></p>'
         }
     })
 
@@ -147,7 +147,7 @@ inputs.forEach((input) => {
         if((coloritem >= colorstart)&&(coloritem <= colorend))
         {
             priceColor = colorprice
-            texte=texte+'<p>Nombre de copies couleur est de : '+coloritem+' * ('+priceColor+'€)<span>'+(coloritem*priceColor).toFixed(2)+'</span></p>'
+            texte=texte+'<p>Nombre de copies couleur est de : '+coloritem+' * ('+priceColor+'€) = <span>'+(coloritem*priceColor).toFixed(2)+'€</span></p>'
         }  
     })
 
@@ -180,8 +180,7 @@ inputs.forEach((input) => {
     }
   }
 
-const client = document.querySelector('#invoice_form_client')
-client.value = 0
+
 
 
 calcul ();

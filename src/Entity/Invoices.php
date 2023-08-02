@@ -29,9 +29,13 @@ class Invoices
     #[ORM\Column]
     private ?float $total = null;
 
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id')]
+    private ?User $user = null;
+
     public function __construct()
     {
-        $this->date = new \DateTime(); // Initialise la date à la date actuelle lors de la création de l'entité
+        $this->date = new \DateTime(); 
     }
 
     public function getId(): ?int
@@ -47,7 +51,6 @@ class Invoices
     public function setDate(\DateTimeInterface $date): static
     {
         $this->date = $date;
-
         return $this;
     }
 
@@ -59,7 +62,6 @@ class Invoices
     public function setClient(int $client): static
     {
         $this->client = $client;
-
         return $this;
     }
 
@@ -71,7 +73,6 @@ class Invoices
     public function setTexte(string $texte): static
     {
         $this->texte = $texte;
-
         return $this;
     }
 
@@ -83,7 +84,6 @@ class Invoices
     public function setPaymentMethod(string $paymentMethod): static
     {
         $this->paymentMethod = $paymentMethod;
-
         return $this;
     }
 
@@ -95,7 +95,18 @@ class Invoices
     public function setTotal(float $total): static
     {
         $this->total = $total;
+        return $this;
+    }
 
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
         return $this;
     }
 }
+
