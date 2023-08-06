@@ -1,0 +1,118 @@
+{% extends 'base.html.twig' %}{# menu anchor variable #}
+{% block title %}Système de caisse de Xtra Copy: index{% endblock %}
+{% set position = 0 %}
+{% block body %}
+<h1>Caisse de Xtra Copy : Accueil</h1>
+<div class="compteur" data-color={{cptColor}} data-nb={{cptnb}}></div>
+<div class="cadrePrincipal">
+    <h2>Caisse de <span>Xtra Copy</span> : Encodage</h2>
+    <div class="copie">
+        <div class="double">
+            <label for="nb_noir_blanc">N/B</label>
+            <input type="number" id="nb_noir_blanc" value=0>
+        </div>
+        <div class="double">
+            <label for="nb_couleurs">Couleurs</label>
+            <input type="number" id="nb_couleurs" value=0>
+        </div>
+    </div>
+    <div class="accordeon">
+        <div class="container-onglets">
+            <div class="onglets active" data-anim='1'>Reliures</div>
+            <div class="onglets" data-anim='2'>Papiers</div>
+            <div class="onglets" data-anim='3'>Photos</div>
+        </div>
+        <div class="reliures contenu activeContenu" data-anim='1'>
+            {% for catReliure in catReliures %}
+            <h3>{{ catReliure.Name }}</h3>
+            <hr>
+            {% for reliure in reliures %}
+            {% if catReliure.Name == reliure.CatBindings.Name %}
+            <div class="content">
+                <p>{{ reliure.Name }}</p>
+                <p>{{ reliure.price }}€</p>
+                <input type="number" value=0 dataprice={{ reliure.price }} dataname="{{ reliure.Name }}" datacat="{{ reliure.CatBindings.Name}}">
+            </div>
+            {% endif %}
+            {% endfor %}
+            {% endfor %}
+        </div>
+        <div class="papers contenu" data-anim='2'>
+            {% for catPaper in catPapers %}
+            <h3>{{ catPaper.catName }}</h3>
+            <hr>
+            {% for paper in papers %}
+            {% if catPaper.catName == paper.CatTypePaper.catName %}
+            <div class="content">
+                <p>{{ paper.Name }}</p>
+                <p>{{ paper.price }}€</p>
+                <input type="number" value=0 dataprice={{ paper.price }} dataname="{{ paper.Name }}" datacat="{{ catPaper.catName}}">
+            </div>
+            {% endif %}
+            {% endfor %}
+            {% endfor %}
+        </div>
+        <div class="photos contenu" data-anim='3'>
+            {% for catPhoto in catPhotos %}
+            <h3>{{ catPhoto.Name }}</h3>
+            <hr>
+            {% for photo in photos %}
+            {% if catPhoto.Name == photo.CatPhotos.Name %}
+            <div class="content">
+                <p>{{ photo.Name }}</p>
+                <p>{{ photo.price }}€</p>
+                <input type="number" value=0 dataprice={{ photo.price }} dataname="{{ photo.Name }}" datacat="{{ catPhoto.Name}}">
+            </div>
+            
+            
+            {% endif %}
+            {% endfor %}
+            {% endfor %}
+
+        </div>
+    </div>
+            {% for nb in nbs %}
+               <div class="data-nb" data-start="{{ nb.Begin}}" data-end="{{ nb.End}}" data-price="{{ nb.Price}}">
+            </div> 
+            {% endfor %}
+            {% for color in colors %}
+               <div class="data-color" data-start="{{ color.Begin}}" data-end="{{ color.End}}" data-price="{{ color.Price}}">
+            </div> 
+            {% endfor %}
+    <div class="autre">
+        <h3>Divers</h3>
+        <div class="center">
+            <input type="number" value=0>
+        </div>
+    </div>
+    <div class="total">
+        <h3>Total</h3>
+        <p><span>0</span> €</p>
+    </div>
+    <div class="user" data={{user.id}}></div>
+    <div id="affichage">
+    </div>
+    <div class="form">
+     {{ form_start(form) }}
+      {{ form_widget(form.paymentMethod) }}
+      <div class="buttonValid">
+            <button type="submit" class="send">Valider</button>
+        </div>
+    {{ form_end(form) }}
+    </div>
+    <a href="{{ path('app_caisse_printselect') }}" class="retour">Retour</a>
+</div>
+{% include "partials/_menuCaisse.html.twig" %}
+{% endblock %}
+{% block javascripts %}
+   
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+        const cptColor = document.querySelector('.compteur').getAttribute('data-color');
+        const cptnb = document.querySelector('.compteur').getAttribute('data-nb');
+        document.getElementById('nb_noir_blanc').value = cptnb;
+        document.getElementById('nb_couleurs').value = cptColor;     
+});
+    </script>
+    {{ encore_entry_script_tags('caisse') }}
+{% endblock %}

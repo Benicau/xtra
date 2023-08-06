@@ -1,15 +1,19 @@
 <?php
 
+// src/Form/WorkersType.php
+
 namespace App\Form;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class WorkersType extends AbstractType
 {
@@ -18,6 +22,18 @@ class WorkersType extends AbstractType
         $builder
             ->add('email', EmailType::class, [
                 'label' => "Email de l'utilisateur",
+                'attr' => [
+                    'placeholder' => "",
+                ],
+            ])
+            ->add('name', TextType::class, [ // Champ pour le nom
+                'label' => "Nom",
+                'attr' => [
+                    'placeholder' => "",
+                ],
+            ])
+            ->add('surname', TextType::class, [ // Champ pour le prénom
+                'label' => "Prénom",
                 'attr' => [
                     'placeholder' => "",
                 ],
@@ -33,8 +49,20 @@ class WorkersType extends AbstractType
                 ],
                 'label' => "Rôle",
             ])
-            ->add('password', TextType::class, [
+            ->add('password', PasswordType::class, [ // Champ pour le mot de passe
                 'label' => "Mot de passe",
+                'attr' => [
+                    'placeholder' => "",
+                ],
+            ])
+            ->add('nbrColor', IntegerType::class, [ // Champ pour le nombre de couleurs
+                'label' => "Nombre de couleurs",
+                'attr' => [
+                    'placeholder' => "",
+                ],
+            ])
+            ->add('nbrNb', IntegerType::class, [ // Champ pour le nombre en noir et blanc
+                'label' => "Nombre en noir et blanc",
                 'attr' => [
                     'placeholder' => "",
                 ],

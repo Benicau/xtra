@@ -13,6 +13,16 @@
     <h2>Ajouter User</h2>
     {{form_start(form)}}
     <div class="form-groupe">
+        {{ form_label(form.name) }}
+        {{ form_widget(form.name) }}
+        {{ form_errors(form.name) }}
+    </div>
+    <div class="form-groupe">
+        {{ form_label(form.surname) }}
+        {{ form_widget(form.surname) }}
+        {{ form_errors(form.surname) }}
+    </div>
+    <div class="form-groupe">
         {{ form_label(form.email) }}
         {{ form_widget(form.email) }}
         {{ form_errors(form.email) }}
@@ -26,6 +36,12 @@
         {{ form_label(form.password) }}
         {{ form_widget(form.password) }}
         {{ form_errors(form.password) }}
+    </div>
+    <div class="hidden">
+        {# Champ nbrColor de type hidden avec valeur 0 #}
+        {{ form_widget(form.nbrColor, {'attr': {'type': 'hidden', 'value': 0}}) }}
+        {# Champ nbrNb de type hidden avec valeur 0 #}
+        {{ form_widget(form.nbrNb, {'attr': {'type': 'hidden', 'value': 0}}) }}
     </div>
     <div class="button">
         <button type="submit" class="send">Enregister</button>

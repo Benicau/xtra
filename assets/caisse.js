@@ -182,8 +182,10 @@ inputs.forEach((input) => {
 
 
 
+  document.addEventListener('DOMContentLoaded', function() {
+    calcul ();
+});
 
-calcul ();
 
 
 

@@ -10,6 +10,8 @@
         <table>
         <thead>
             <tr>
+                <th>Nom</th>
+                <th>Prenom</th>
                 <th>Adresse mail</th>
                 <th>Rôles</th>
                 <th>Actions</th>
@@ -18,8 +20,10 @@
         <tbody>
         {% for pagination in paginations %}
             <tr>
+                <td>{{pagination.name}}</td>
+                <td>{{pagination.surname}}</td>
                 <td>{{pagination.email}}</td>
-                <td>{{pagination.roles|join(', ') }}</td>
+                <td class='role'>{{pagination.roles|join(', ') }}</td>
                 <td class="link userlink">      
                 {% if (pagination.email != "benoit_caucheteux@hotmail.com") %}
                     <a href="{{path('app_worker_delete',{'id': pagination.id})}}" class="delete">Supprimer</a>     

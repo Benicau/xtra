@@ -28,6 +28,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $name = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $surname = null;
+
+    #[ORM\Column]
+    private ?int $nbrColor = null;
+
+    #[ORM\Column]
+    private ?int $nbrNb = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -96,5 +108,53 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): static
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getSurname(): ?string
+    {
+        return $this->surname;
+    }
+
+    public function setSurname(string $surname): static
+    {
+        $this->surname = $surname;
+
+        return $this;
+    }
+
+    public function getNbrColor(): ?int
+    {
+        return $this->nbrColor;
+    }
+
+    public function setNbrColor(int $nbrColor): static
+    {
+        $this->nbrColor = $nbrColor;
+
+        return $this;
+    }
+
+    public function getNbrNb(): ?int
+    {
+        return $this->nbrNb;
+    }
+
+    public function setNbrNb(int $nbrNb): static
+    {
+        $this->nbrNb = $nbrNb;
+
+        return $this;
     }
 }

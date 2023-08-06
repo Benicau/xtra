@@ -1,0 +1,81 @@
+{% extends 'base.html.twig' %}
+{% block title %}Système de caisse de Xtra Copy: index{% endblock %}
+{% set position = 0 %}
+{% block body %}
+<h1>Caisse de Xtra Copy : sélection imprimantes</h1>
+<div class="cadrePrincipal">
+    <h2>Sélection des imprimantes</h2>
+    <div class="allPrint">
+        {% for print in prints %}
+        <div class="printSelect">
+            <div class="info">
+                <ul>
+                    <li class="nbrPrint">Imprimante {{ print.NumberPrint }}</li>
+                    <li class="resultat">Couleur : <span>{{ print.endColor - print.startColor }}</span></li>
+                    <li class="resultat">Noir et blanc :
+                        <span>{{ print.endWhiteBlack - print.startWhiteBlack }}</span> </li>
+                </ul>
+            </div>
+            <div class="choix">
+                <input type="checkbox" class="selection-checkbox" id="myCheckbox{{ print.id }}" data-id="{{ print.id }}">
+                <label for="myCheckbox{{ print.id }}" class="checkbox-label">Sélectionner</label>
+            </div>
+            <div class="deletePrint">
+                <a href="{{ path('DeletePrint', {'id': print.id}) }}">Supprimer</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="linkPrint">
+        <div class="linkValide">
+            {# Ajoutez l'attribut data-url avec l'URL de base #}
+            <a href="#" id="validerLink" data-url="{{ path('app_caisse_Copie') }}">Valider</a>
+        </div>
+        <div class="linkRefresh">
+            <a href="#" onclick="window.location.reload()">Rafraîchir</a>
+        </div>
+        <div class="linkReturn">
+            <a href="{{ path('app_caisse_index') }}">Retour</a>
+        </div>
+    </div>
+</div>
+{% include "partials/_menuCaisse.html.twig" %}
+
+{% block javascript %}
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Obtenez l'élément du lien "Valider"
+        const validerLink = document.getElementById("validerLink");
+
+        // Ajoutez un gestionnaire d'événements de clic au lien "Valider"
+        validerLink.addEventListener("click", function (event) {
+            event.preventDefault();
+
+            // Obtenez l'URL de base depuis l'attribut data-url
+            const baseUrl = validerLink.getAttribute("data-url");
+
+            // Obtenez toutes les cases à cocher avec la classe "selection-checkbox"
+            const checkboxes = document.querySelectorAll(".selection-checkbox");
+
+            // Créez un tableau pour stocker les identifiants des imprimantes sélectionnées
+            const selectedPrintIds = [];
+
+            // Parcourez les cases à cocher et vérifiez si elles sont sélectionnées
+            checkboxes.forEach(function (checkbox) {
+                if (checkbox.checked) {
+                    // Obtenez l'identifiant de l'imprimante à partir de l'attribut data-id (en supposant que vous avez défini l'attribut data-id dans le HTML de la case à cocher)
+                    const printId = checkbox.dataset.id;
+                    selectedPrintIds.push(printId);
+                }
+            });
+
+            // Construisez l'URL finale en ajoutant les identifiants des imprimantes sélectionnées
+            const url = baseUrl + '?printIds=' + selectedPrintIds.join(',');
+
+            // Redirigez la page vers l'URL construite
+            window.location.href = url;
+        });
+    });
+</script>
+{% endblock %}
+{% endblock %}

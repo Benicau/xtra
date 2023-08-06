@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}{# menu anchor variable #}
+{% block title %}Système de caisse de Xtra Copy: abonnés{% endblock %}
+{% set position = 1 %}
+{% block body %}
+<h1>Caisse de Xtra Copy : Abonnés</h1>
+<div class="cadrePrincipal">
+        <ul class="menuabo">
+            <li><a href="">Ajouter un abonné</a></li>
+            <li><a href="">Recherche d'un abonné</a></li>
+        </ul>
+</div>
+{% include "partials/_menuCaisse.html.twig" %}
+
+
+
+
+{% endblock %}
