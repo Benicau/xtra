@@ -2,11 +2,15 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Entity\Bindings;
 use App\Entity\Invoices;
 use App\Entity\PrintQueue;
 use App\Entity\Pricecopynb;
+use App\Form\ClientFormType;
 use App\Form\InvoiceFormType;
+use App\Form\SearchAbonneType;
+use App\Repository\UserRepository;
 use App\Repository\PhotosRepository;
 use App\Repository\BindingsRepository;
 use App\Repository\CatPhotosRepository;
@@ -16,11 +20,13 @@ use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\CatBindingsRepository;
 use App\Repository\PricecopynbRepository;
 use App\Repository\CatTypePaperRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use App\Repository\PricecopycolorRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class CaisseController extends AbstractController
 {
@@ -170,4 +176,76 @@ public function Copie( EntityManagerInterface $manager ,Request $request, CatBin
         
     }
 
+
+
+
+#[Route('/caisse/abo/add', name: 'app_caisse_abo_add')]
+    public function aboAdd(EntityManagerInterface $manager, Request $request, UserPasswordHasherInterface $hasher): Response
+    {
+    $user = new User();
+    $users = $this->getUser();
+    $form = $this->createForm(ClientFormType::class, $user);
+    $form->handleRequest($request);
+    if($form->isSubmitted() && $form->isValid())
+    {
+        
+        $randomPassword = bin2hex(random_bytes(10));
+        $user->setPassword($hasher->hashPassword($user, $randomPassword));
+        $user->setRoles(['ROLE_USER']);
+        $manager->persist($user);
+        $manager->flush();
+
+        $this->addFlash(
+            'success',
+            "Votre nouveau user à bien eté crée"
+        );
+
+        return $this->redirectToRoute('app_caisse_abo_index');
+    }
+        return $this->render('users/addCaisse.html.twig', ['form'=>$form->createView(),'user' => $users]);
+        
+    }
+
+    #[Route('/caisse/abo/recherche)', name: 'app_caisse_abo_recherche')]
+        public function shearAbo(Request $request, UserRepository $abonneRepository, PaginatorInterface $paginator ):Response
+        {
+            $form = $this->createForm(SearchAbonneType::class);
+            $form->handleRequest($request);
+            $user = $this->getUser();
+            $queryBuilder = $abonneRepository->createQueryBuilder('a');
+            $queryBuilder->orderBy('a.name', 'ASC'); // Classement par ordre alphabétique sur le nom
+    
+            if ($form->isSubmitted() && $form->isValid()) {
+                $data = $form->getData();
+                $nom = $data['nom'] ?? '';
+                $prenom = $data['prenom'] ?? '';
+    
+                $queryBuilder
+                    ->where('a.name LIKE :nom')
+                    ->andWhere('a.surname LIKE :prenom')
+                    ->setParameter('nom', '%' . $nom . '%')
+                    ->setParameter('prenom', '%' . $prenom . '%');
+            }
+    
+            $pagination = $paginator->paginate(
+                $queryBuilder->getQuery(),
+                $request->query->getInt('page', 1),
+                7 // Nombre de résultats par page
+            );
+    
+            return $this->render('users/searchUser.html.twig', [
+                'form' => $form->createView(),
+                'pagination' => $pagination,
+                'user' => $user
+            ]);
+
+
+        }
+
+
+
 }
+
+
+
+

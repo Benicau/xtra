@@ -48,6 +48,28 @@ h1 {
 }
 
 .cadrePrincipal {
+    .rechercheAbo{
+        margin-top: 50px;
+        .form-groupe{
+           
+            input{ width: 350px;
+                margin-left: 15px;
+            }
+        }
+    }
+    .choix{
+        display: flex;
+        width: 100%;
+        .color{      
+            width: 48%;
+        }
+        .nb{
+            width: 48%;      
+        }
+        input{
+            width: 50px;
+        }
+    }
     .menuabo{
         position: relative;
        
