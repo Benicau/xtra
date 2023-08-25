@@ -48,6 +48,119 @@ h1 {
 }
 
 .cadrePrincipal {
+    .infoAbonne{
+        background-color: #1EABDC;
+        width: 350px;
+        position: absolute;
+        top:70px;
+        right: 20px;
+        border-radius: 5px;
+        padding-bottom: 10px;
+        h4{
+            text-align: center;
+            color: white;
+            font-size: 18px;
+            padding: 10px;
+            text-decoration: underline;
+        }
+        h5{
+            font-size: 23px;
+            text-align: center;
+            font-weight: bold;
+            padding-bottom: 10px;
+            color: green;
+        }
+        p{
+            text-align: center;
+            padding: 4px;
+        }
+
+    }
+    #resume{
+        h4{
+            text-align: center;
+            color: #1EABDC;
+            font-size: 34px;
+            text-decoration: underline;
+        }
+        height: 350px;
+        width: 550px;
+        position: absolute;
+        bottom: 150px;
+        right: 70px;
+        p{ text-align: center;
+            padding-top: 25px;
+            span{ color: #1EABDC;
+                font-size: 21px;
+            
+            }
+        
+        }
+        
+    }
+    
+    .menuItemAbo
+    {
+        display: flex;
+        gap: 10px;
+        
+        .itemAbo{
+            background-color: white;
+           width: 160px;
+           height: 100px;
+            border-radius: 5px;
+            position: relative;
+            p{
+                text-align: center;
+                font-size: 18px;
+                
+                padding-top: 10px;
+            }
+            .choix{
+                background-color: green;
+                position: absolute;
+                bottom: 0;
+                input{
+                    width: 23px;
+                    height: 23px;
+                    cursor: pointer;
+                }
+                label{
+                    font-size: 18px;
+                    padding-top: 5px;
+                    padding-left: 10px;
+                }
+            }
+           
+       
+    }
+    }
+    
+    .abonnement
+    {
+        background-color:#1EABDC;
+        position: absolute;
+        top: 70px;
+        left: 50px;
+        padding: 15px;
+        border-radius: 5px;
+        h4{
+            text-align: center;
+            color: white;
+            
+            font-size: 18px;
+            padding: 5px;
+            text-decoration: underline;
+        }
+        h5{
+            color: white;
+            font-size: 18px;
+            
+            padding-top: 25px;
+            padding-bottom: 10px;
+        }
+    }
+
     .rechercheAbo{
         margin-top: 50px;
         .form-groupe{
@@ -191,6 +304,26 @@ h1 {
        
 
     } 
+    .infoClient{
+       
+        
+        width: 250px;
+        position: absolute;
+        top: 2%;
+        right: 30px;
+        text-align: center;
+        h5{
+            color: #1EABDC;
+            font-size: 23px;
+            padding-bottom: 7px;
+            font-weight: bold;
+        }
+        p{
+            padding: 1px;
+        }
+
+
+    }
     .linkPrint{
             position: absolute;
             bottom:45px;
@@ -199,6 +332,7 @@ h1 {
             font-size: 25px;
             width: 100%;
             justify-content: center;
+        
             a{
                 text-decoration: none;
                 display: block;
@@ -941,6 +1075,7 @@ h1 {
     }
 
 }
+
 
 .info {
     position: relative;

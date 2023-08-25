@@ -29,13 +29,18 @@
                 </thead>
                 <tbody>
                     {% for abonne in pagination %}
+                    {% if not abonne.roles[1] is defined %}
                     <tr>
                         <td>{{abonne.name}}</td>
+                        
                         <td>{{abonne.surname}}</td>
-                        <td class="link"><a href="{{path('app_caisse_abo_index',{'id': abonne.id})}}" class="modif">Modifier</a>
-                            <a href="{{path('app_caisse_abo_index',{'id': abonne.id})}}" class="delete">Supprimer</a>
+                        <td class="link"><a href="{{path('editAbo',{'id': abonne.id})}}" class="modif">Modifier</a>
+                         {% if is_granted('ROLE_ADMIN') %}
+                            <a href="{{path('app_abo_delete',{'id': abonne.id})}}" class="delete">Supprimer</a>
                         </td>
+                        {% endif %}
                     </tr>
+                    {% endif %}
                     {% endfor %}
                 </tbody>
             </table>

@@ -1,0 +1,201 @@
+{% extends 'base.html.twig' %}{# menu anchor variable #}
+{% block title %}Choix abonnements{% endblock %}
+{% set position = 0 %}
+{% block body %}
+<h1>Choix abonnements</h1>
+<div class="cadrePrincipal">
+    <div class="infoAbonne">
+        <h4>Information sur l'abonné</h4>
+        <h5>{{abo.name}} {{abo.surname}}</h5>
+        <p>{{abo.email}}</p>
+        <p id='abocptcolor'>Couleurs = {{abo.nbrColor}}</p>
+        <p id='abocptnb'>N/B= {{abo.nbrNb}}</p>
+    </div>
+    <div class="abonnement">
+        <h4>Ajouter un Abonnement</h4>
+        <h5>Couleurs</h5>
+        <div class="menuItemAbo">
+            {% for abonnement in abonnements %}
+            {% if abonnement.catAbonnement.catName == 'Couleur' %}
+            <div class="itemAbo colorAbo"  >
+                <p>{{abonnement.nbcopy}} copies</p>
+                <p>{{abonnement.price}} €</p>
+                <div class="choix">
+                    <input type="checkbox" class="selection-checkbox" data-id={{abonnement.id}} data-color={{abonnement.nbcopy}}>
+                    <label for="myCheckbox40" class="checkbox-label">Sélectionner</label>
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+
+        <h5>Noir et blanc</h5>
+        <div class="menuItemAbo">
+            {% for abonnement in abonnements %}
+            {% if abonnement.catAbonnement.catName != 'Couleur' %}
+            <div class="itemAbo nbAbo" >   
+                <p>{{abonnement.nbcopy}} copies</p>
+                <p>{{abonnement.price}} €</p>
+                <div class="choix">
+                <input type="checkbox" class="selection-checkbox" data-id={{abonnement.id}} data-nb={{abonnement.nbcopy}}>
+                <label for="myCheckbox{{ abonnement.id }}" class="checkbox-label">Sélectionner</label>
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    <div class="copie">
+        <div class="double">
+            <label for="nb_couleurs">Couleurs</label>
+            <input type="number" id="nb_couleurs" value={{cptColor}}>
+        </div>
+        <div class="double">
+            <label for="nb_noir_blanc">N/B</label>
+            <input type="number" id="nb_noir_blanc" value={{cptnb}}>
+        </div>
+
+
+    </div>
+    <div id="resume">
+    </div>
+    <div class="linkPrint">
+        <div class="linkAboOnly">
+            {# Ajoutez l'attribut data-url avec l'URL de base #}
+            <a href="#" id="validerSansServices" data-client={{abo.id}} data-print={{printIds}}>Valider sans services</a>
+        </div>
+        <div class="linkRefresh">
+            <a href="#">Valider avec services</a>
+        </div>
+        <div class="linkReturn">
+            <a href="{{ path('app_caisse_index') }}">Retour</a>
+        </div>
+    </div>
+</div>
+
+{% include "partials/_menuCaisse.html.twig" %}
+{% block javascript %}
+<script>
+const nbCopie = document.querySelector('#nb_noir_blanc')
+const colorCopie = document.querySelector('#nb_couleurs')
+const checkboxes = document.querySelectorAll('.selection-checkbox');
+const resume = document.getElementById('resume');
+const abocptcolor = document.getElementById('abocptcolor');
+const aboNbrColorElement = document.getElementById('abocptcolor');
+const aboNbrColorText = aboNbrColorElement.textContent;
+const aboNbrColor = parseInt(aboNbrColorText.replace(/\D/g, '')); // Supprime tous les caractères non numériques
+const aboNbrNbElement = document.getElementById('abocptnb');
+const aboNbrNbText = aboNbrNbElement.textContent;
+const aboNbrNb = parseInt(aboNbrNbText.replace(/\D/g, '')); // Supprime tous les caractères non numériques
+
+
+
+nbCopie.addEventListener('input', function(){
+    if(nbCopie.value<0)
+    {
+        nbCopie.value=0
+    }
+    calcul()
+
+})
+
+colorCopie.addEventListener('input', function(){
+    if(colorCopie.value<0)
+    {
+        colorCopie.value=0
+    }
+    calcul()
+})
+
+checkboxes.forEach(checkbox => {
+    checkbox.addEventListener('change', function() {
+        calcul()
+    });
+});
+
+
+function calcul(){
+const validerSansServicesLink = document.getElementById('validerSansServices');
+const nbCopie = document.querySelector('#nb_noir_blanc');
+const colorCopie = document.querySelector('#nb_couleurs');
+var couleur = 0;
+couleur = aboNbrColor - colorCopie.value;
+var noirblanc = 0;
+noirblanc = aboNbrNb - nbCopie.value;
+var affichageNb = 0;
+var affichageColor=0;
+var resteNb=0;
+var resteColor=0;
+var btnAboOnly = document.querySelector('.linkAboOnly a');
+btnAboOnly.style.display = 'block';
+var choixNb = 0
+var choixColor = 0 
+
+checkboxes.forEach(checkbox => {
+    if (checkbox.checked) {
+        var copieNb = checkbox.getAttribute('data-nb');
+        var copieColor = checkbox.getAttribute('data-color');
+        if (copieNb == null)
+        {
+            copieNb =0;
+        }
+        else{
+            copieNb = parseInt(copieNb)
+        }
+        if (copieColor == null)
+        {
+            copieColor =0;
+        }
+        else{
+            copieColor = parseInt(copieColor)
+        }
+        choixNb += copieNb
+        choixColor+=copieColor
+        
+    }
+});
+
+noirblanc += choixNb 
+couleur += choixColor
+resteColor+=choixColor
+resteNb += choixNb
+
+if (noirblanc > 0) {
+    affichageNb += noirblanc; 
+} 
+else {
+    resteNb += noirblanc * -1
+}
+
+if (couleur > 0) {
+    affichageColor += couleur; 
+} 
+else {
+    resteColor += couleur * -1
+}
+
+ resume.innerHTML=''
+ resume.innerHTML="<h4>Infos</h4><p>Après l'opération il restera <span>"+affichageColor+"</span> copie(s) couleur et <span>"+affichageNb+"</span> copie(s) n/b.</p>"
+ if(resteColor>0)
+ {
+    resume.innerHTML+='<p>Il reste <span>'+resteColor+'</span> copie(s) couleurs à payer.</p>'
+    btnAboOnly.style.display = 'none';
+ }
+  if(resteNb>0)
+ {
+    resume.innerHTML+='<p>Il reste <span>'+resteNb+'</span> copie(s) N/B à payer.</p>'
+    btnAboOnly.style.display = 'none';
+ }
+
+ validerSansServicesLink.href = "#?printIds=" +  validerSansServicesLink.getAttribute('data-print') + "&userId=" +  validerSansServicesLink.getAttribute('data-client');
+    
+
+}
+document.addEventListener('DOMContentLoaded', function() {
+    calcul ();
+});
+</script>
+{% endblock %}
+
+
+{% endblock %}

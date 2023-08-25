@@ -5,9 +5,10 @@
     <ul class="menuSup">
         <li{% if position == 0 %} class="activate"{% endif %}><a href="{{ path('app_admin_page')}}"><i class="fa-solid fa-home"></i>Accueil</a></li>
         <li{% if position == 1 %} class="activate"{% endif %}><a href="{{ path('app_users')}}"><i class="fa-solid fa-user"></i>Utilisateurs</a></li>
-        <li{% if position == 4 %} class="activate"{% endif %}><a href=""><i class="fa-solid fa-shop"></i>Shop</a></li>
+        <li{% if position == 4 %} class="activate"{% endif %}><a href=""><i class="fa-solid fa-bag-shopping"></i>Shop</a></li>
         <li{% if position == 2 %} class="activate"{% endif %}><a href=""><i class="fa-solid fa-coins"></i>Comptabilité</a></li>
-        <li{% if position == 3 %} class="activate"{% endif %}><a href="{{ path('indexParametre')}}"><i class="fa-solid fa-gauge-high"></i>Paramètres </a></li>      
+        <li{% if position == 3 %} class="activate"{% endif %}><a href="{{ path('indexParametre')}}"><i class="fa-solid fa-gauge-high"></i>Paramètres </a></li> 
+        <li{% if position == 4 %} class="activate"{% endif %}><a href="{{ path('app_caisse_index')}}"><i class="fa-solid fa-house"></i>Caisse</a></li>     
     </ul>
     <div class="cadreConnect">
     <a href="{{ path('app_logout')}}">Se déconneter</a>

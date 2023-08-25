@@ -1,12 +1,59 @@
 {% extends 'base.html.twig' %}{# menu anchor variable #}
-{% block title %}Système de caisse de Xtra Copy: Recherche abonné{% endblock %}
+{% block title %}Recherche abonné{% endblock %}
 {% set position = 0 %} 
 {% block body %}
 <h1>Caisse de Xtra Copy : Recherche abonné</h1>
 <div class="cadrePrincipal">
-    
+    <div class="list">
+        {{ form_start(form) }}
+        <div class="rechercheAbo">
+            <div class="form-groupe">
+                {{ form_row(form.nom) }}
+            </div>
+            <div class="form-groupe">
+                {{ form_row(form.prenom) }}
+            </div>
+            <div class="button">
+                <button type="submit">Rechercher</button>
+            </div>
+            {{ form_end(form) }}
+            {% if pagination|length > 0 %}
+            <h2>Résultats de la recherche</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Prénom</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for abonne in pagination %}
+                    {% if not abonne.roles[1] is defined %}
+                    <tr>
+                        <td>{{abonne.name}}</td>
+                        
+                        <td>{{abonne.surname}}</td>
+                        <td class="link"><a href="{{path('printselectAbo',{'id': abonne.id})}}" class="modif">Select</a>
+                        </td>
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+            {{ knp_pagination_render(pagination) }}
+            {% else %}
+            <div class="error">
+                <p>Aucun résultat trouvé.</p>
+            </div>
+            {% endif %}
+        </div>    
+            <a href="{{ path('app_caisse_index') }}" class="retour">Retour</a>
+    </div>
 
-</div>      
+
+
+</div>    
     {% include "partials/_menuCaisse.html.twig" %}
 
 

@@ -19,6 +19,7 @@
        </thead>
         <tbody>
         {% for pagination in paginations %}
+        {% if pagination.roles[1] is defined %}
             <tr>
                 <td>{{pagination.name}}</td>
                 <td>{{pagination.surname}}</td>
@@ -30,6 +31,7 @@
                 {% endif %}
                 </td>
             </tr>
+        {% endif %}
             {% endfor %}
             
         </tbody> 

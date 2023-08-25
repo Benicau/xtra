@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}{# menu anchor variable #}
+{% block title %}Système de caisse de Xtra Copy: abonnés{% endblock %}
+{% set position = 1 %}
+{% block body %}
+<h1>Caisse de Xtra Copy : Abonnés</h1>
+<div class="cadrePrincipal">
+    <h2>Modifier abonné</h2>
+    {{form_start(form)}}
+    <div class="form-groupe">
+        {{ form_label(form.name) }}
+        {{ form_widget(form.name) }}
+        {{ form_errors(form.name) }}
+    </div>
+    <div class="form-groupe">
+        {{ form_label(form.surname) }}
+        {{ form_widget(form.surname) }}
+        {{ form_errors(form.surname) }}
+    </div>
+    <div class="form-groupe">
+        {{ form_label(form.email) }}
+        {{ form_widget(form.email) }}
+        {{ form_errors(form.email) }}
+    </div>
+    <div class="form-groupe">
+        <div class="choix">
+            <div class="color">
+                {{ form_label(form.nbrColor) }}
+                {{ form_widget(form.nbrColor, {'attr': {'type': 'integer'}}) }}
+            </div>
+            <div class="nb">
+                {{ form_label(form.nbrNb) }}
+                {{ form_widget(form.nbrNb, {'attr': {'type': 'integer'}}) }}
+            </div>
+        </div>
+    </div>
+    <div class="button">
+        <button type="submit" class="send">Enregister</button>
+    </div>
+    {{form_end(form)}}
+    <a href="{{ path('app_caisse_abo_recherche')}}" class="retour">Retour</a>
+</div>
+
+</div>
+{% include "partials/_menuCaisse.html.twig" %}
+
+
+
+
+{% endblock %}

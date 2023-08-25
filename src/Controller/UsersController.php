@@ -61,7 +61,7 @@ class UsersController extends AbstractController
     ]);
     }
 
-    #[Route('/worker/{id}/delete', name: 'app_worker_delete')]
+    #[Route('/admin/user/{id}/delete', name: 'app_worker_delete')]
     public function delete(EntityManagerInterface $manager, Request $request, User $user ): Response
     {
         $this->addFlash('success', "User supprimé");

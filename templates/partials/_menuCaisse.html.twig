@@ -6,6 +6,9 @@
         <li{% if position == 0 %} class="activate"{% endif %}><a href="{{ path('app_caisse_index')}}"><i class="fa-solid fa-clapperboard"></i>Scénarios</a></li>
         <li{% if position == 1 %} class="activate"{% endif %}><a href="{{ path('app_caisse_abo_index')}}"><i class="fa-solid fa-user"></i>Abonnés</a></li>
         <li{% if position == 2 %} class="activate"{% endif %}><a href=""><i class="fa-solid fa-coins"></i>Comptabilité</a></li>    
+         {% if is_granted('ROLE_ADMIN') %}
+        <li{% if position == 3 %} class="activate"{% endif %}><a href="{{ path('app_admin_page')}}"><i class="fa-solid fa-house"></i>Menu admin</a></li>          
+        {% endif %}
     </ul>
     <div class="cadreConnect">
     <a href="{{ path('app_logout')}}">Se déconneter</a>
