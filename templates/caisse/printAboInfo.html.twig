@@ -65,7 +65,7 @@
             <a href="#" id="validerSansServices" data-client={{abo.id}} data-print={{printIds}}>Valider sans services</a>
         </div>
         <div class="linkRefresh">
-            <a href="#">Valider avec services</a>
+            <a href="#" id="validerAvecServices" data-client={{abo.id}} data-print={{printIds}}>Valider avec services</a>
         </div>
         <div class="linkReturn">
             <a href="{{ path('app_caisse_index') }}">Retour</a>
@@ -116,6 +116,7 @@ checkboxes.forEach(checkbox => {
 
 function calcul(){
 const validerSansServicesLink = document.getElementById('validerSansServices');
+const validerAvecServicesLink = document.getElementById('validerAvecServices');
 const nbCopie = document.querySelector('#nb_noir_blanc');
 const colorCopie = document.querySelector('#nb_couleurs');
 var couleur = 0;
@@ -187,7 +188,8 @@ else {
     btnAboOnly.style.display = 'none';
  }
 
- validerSansServicesLink.href = "#?printIds=" +  validerSansServicesLink.getAttribute('data-print') + "&userId=" +  validerSansServicesLink.getAttribute('data-client');
+ validerSansServicesLink.href = "{{ path('valideAboOnly')}}?printIds=" +  validerSansServicesLink.getAttribute('data-print') + "&userId=" +  validerSansServicesLink.getAttribute('data-client') +"&color="+affichageColor+"&nb="+affichageNb;
+ validerAvecServicesLink.href = "{{ path('app_caisse_AboCopie')}}?printIds=" +  validerSansServicesLink.getAttribute('data-print') + "&userId=" +  validerSansServicesLink.getAttribute('data-client') +"&CptColor="+affichageColor+"&CptNb="+affichageNb+"&ResteNb="+resteNb+"&ResteColor="+resteColor;
     
 
 }

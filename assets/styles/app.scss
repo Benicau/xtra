@@ -46,8 +46,26 @@ h1 {
     margin-top: 25px;
     color: black;
 }
+.seule{
+    h2{
+   text-align: center;
+   color: #1EABDC;
+   margin-top: 25px;
+}
+h3{
+   text-align: center;
+   margin-top: 35px;
+   span{
+       color: #1EABDC;
+       font-size: 22px;
+   }
+}
+
+}
 
 .cadrePrincipal {
+    
+   
     .infoAbonne{
         background-color: #1EABDC;
         width: 350px;

@@ -3,17 +3,17 @@
 {% set position = 0 %}
 {% block body %}
 <h1>Caisse de Xtra Copy : Accueil</h1>
-<div class="compteur" data-color={{cptColor}} data-nb={{cptnb}}></div>
+
 <div class="cadrePrincipal">
     <h2>Caisse de <span>Xtra Copy</span> : Encodage</h2>
     <div class="copie">
         <div class="double">
             <label for="nb_noir_blanc">N/B</label>
-            <input type="number" id="nb_noir_blanc" value=0>
+            <input type="number" id="nb_noir_blanc" value={{resteNb}} readonly>
         </div>
         <div class="double">
             <label for="nb_couleurs">Couleurs</label>
-            <input type="number" id="nb_couleurs" value=0>
+            <input type="number" id="nb_couleurs"value={{resteCouleur}} readonly>
         </div>
     </div>
     <div class="accordeon">
@@ -106,13 +106,6 @@
 {% endblock %}
 {% block javascripts %}
    
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-        const cptColor = document.querySelector('.compteur').getAttribute('data-color');
-        const cptnb = document.querySelector('.compteur').getAttribute('data-nb');
-        document.getElementById('nb_noir_blanc').value = cptnb;
-        document.getElementById('nb_couleurs').value = cptColor;     
-});
-    </script>
+
     {{ encore_entry_script_tags('caisse') }}
 {% endblock %}

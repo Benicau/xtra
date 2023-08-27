@@ -38,6 +38,41 @@ class CaisseController extends AbstractController
         return $this->render('caisse/info.html.twig', []);
     }
 
+
+
+    #[Route('/caisse/compta', name: 'app_caisse_compta')]
+public function compta(EntityManagerInterface $entityManager): Response
+{
+    $user = $this->getUser();
+
+    $startDate = new \DateTime();
+    $startDate->setTime(0, 0, 0); // Début de la journée
+
+    $endDate = new \DateTime();
+    $endDate->setTime(23, 59, 59); // Fin de la journée
+
+    $invoicesRepository = $entityManager->getRepository(Invoices::class);
+    $invoices = $invoicesRepository->createQueryBuilder('i')
+        ->where('i.date BETWEEN :startDate AND :endDate')
+        ->setParameter('startDate', $startDate)
+        ->setParameter('endDate', $endDate)
+        ->getQuery()
+        ->getResult();
+    
+    $total = 0;
+    foreach ($invoices as $invoice) {
+        $total += $invoice->getTotal();
+    } 
+
+    return $this->render('caisse/compta.html.twig', ['user' => $user, 'total' => $total]);
+}
+
+
+
+
+
+
+
     #[Route('/caisse/index', name: 'app_caisse_index')]
     public function index(): Response
     {
@@ -117,15 +152,35 @@ class CaisseController extends AbstractController
         return $this->render('caisse/printAboInfo.html.twig', ['user' => $user,'abo' => $selectedAbo,'abonnements' => $abonnement,'cptColor' => $cptcolor,'cptnb' => $cpnb, 'printIds' =>$printIdsString ]);
     }
 
-    #[Route('/caisse/printAboInfo/info', name: 'valideAboOnly')]
-    public function valideAboOnly(Request $request)
+
+    #[Route('/caisse/valideAboOnly', name: 'valideAboOnly')]
+    public function valideAboOnly(Request $request, EntityManagerInterface $entityManager)
     {
         $user = $this->getUser();
         $printIdsString = $request->query->get('printIds');
         $printIdsArray = explode(',', $printIdsString);
         $userId = $request->query->get('userId');
-        return $this->render('caisse/valideAboOnly.html.twig', []);
+        $color = $request->query->get('color');
+        $nb =  $request->query->get('nb');
+        $userEntity = $entityManager->getRepository(User::class)->find($userId);
+        $userEntity->setNbrColor($color); 
+        $userEntity->setNbrNb($nb);   
+        foreach ($printIdsArray as $queueId) {
+            $printQueue = $entityManager->getRepository(PrintQueue::class)->find($queueId);
+            if ($printQueue) {
+                $entityManager->remove($printQueue);
+            }
+        }
+
+        $entityManager->flush(); // Make sure to flush changes to the database
+
+        return $this->render('caisse/valideAboOnly.html.twig', [
+            'user' => $user,
+            'nb' => $nb,
+            'color' => $color,
+        ]); 
     }
+
 
 
 
@@ -220,35 +275,38 @@ public function Copie( EntityManagerInterface $manager ,Request $request, CatBin
 }
 
 #[Route('/caisse/aboCopie', name: 'app_caisse_AboCopie')]
-public function aboCopie( EntityManagerInterface $manager ,Request $request, CatBindingsRepository $catTypeBindings, BindingsRepository $typebindings, CatTypePaperRepository $catTypePaper, TypePaperRepository $typePaper, CatPhotosRepository $catTypePhotos, PhotosRepository $typePhotos, PricecopycolorRepository $typeColors, PricecopynbRepository $typeNbs): Response
+public function aboCopie(EntityManagerInterface $manager, Request $request, CatBindingsRepository $catTypeBindings, BindingsRepository $typebindings, CatTypePaperRepository $catTypePaper, TypePaperRepository $typePaper, CatPhotosRepository $catTypePhotos, PhotosRepository $typePhotos, PricecopycolorRepository $typeColors, PricecopynbRepository $typeNbs): Response
 {
     $user = $this->getUser();
+    $userId = $request->query->get('userId');
+    $color = $request->query->get('CptColor');
+    $nb =  $request->query->get('CptNb');   
+    $resteCouleur = $request->query->get('ResteColor');
+    $resteNb = $request->query->get('ResteNb');
     $printIdsString = $request->query->get('printIds');
+    $userId = intval($request->query->get('userId')); 
     $printIdsArray = explode(',', $printIdsString);
     $catBindings = $catTypeBindings->findAll();
     $bindings = $typebindings->findAll();
     $catPapers = $catTypePaper->findAll();
     $papers = $typePaper->findAll();
-    $catPhotos = $catTypePhotos ->findAll();
-    $photos = $typePhotos ->findAll();
-    $colors = $typeColors ->findAll();
-    $nbs = $typeNbs -> findAll();
-    $invoices = new Invoices; 
-    $invoices->setClient(-1);
+    $catPhotos = $catTypePhotos->findAll();
+    $photos = $typePhotos->findAll();
+    $colors = $typeColors->findAll();
+    $nbs = $typeNbs->findAll();
+    $invoices = new Invoices;
+    $invoices->setClient($userId);
     $form = $this->createForm(InvoiceFormType::class, $invoices);
     $form->handleRequest($request);
     $invoices->setUser($user);
     $printQueueRepository = $manager->getRepository(PrintQueue::class);
     $printQueuesToUpdate = $printQueueRepository->findBy(['id' => $printIdsArray]);
-    $cptcolor = 0;
-    $cpnb = 0;
-    foreach ($printQueuesToUpdate as $printQueue) {
-        $cptcolor += ($printQueue->getEndColor()) - ($printQueue->getStartColor());
-        $cpnb += ($printQueue->getEndWhiteBlack()) - ($printQueue->getStartWhiteBlack());
-    }
+    
 
-    if($form->isSubmitted() && $form->isValid())
-    {
+    if ($form->isSubmitted() && $form->isValid()) {
+        $userEntity = $manager->getRepository(User::class)->find($userId);
+        $userEntity->setNbrColor($color); 
+        $userEntity->setNbrNb($nb);   
         foreach ($printQueuesToUpdate as $printQueue) {
             $manager->remove($printQueue);
         }
@@ -257,13 +315,12 @@ public function aboCopie( EntityManagerInterface $manager ,Request $request, Cat
 
         $this->addFlash(
             'success',
-            "Opération enregistée avec succes"
+            "Opération enregistrée avec succès"
         );
         return $this->redirectToRoute('app_caisse_succes');
     }
 
-
-    return $this->render('caisse/copieAbo.html.twig', ['form'=>$form->createView(),'cptColor' => $cptcolor,'cptnb' => $cpnb, 'user' => $user, 'catReliures' =>$catBindings, 'reliures'=>$bindings, 'catPapers' =>$catPapers, 'papers' => $papers, 'catPhotos'=>$catPhotos, 'photos'=>$photos, 'colors'=>$colors, 'nbs'=>$nbs]);      
+    return $this->render('caisse/copieAbo.html.twig', ['form' => $form->createView(), 'user' => $user, 'catReliures' => $catBindings, 'reliures' => $bindings, 'catPapers' => $catPapers, 'papers' => $papers, 'catPhotos' => $catPhotos, 'photos' => $photos, 'colors' => $colors, 'nbs' => $nbs, 'resteCouleur' => $resteCouleur, 'resteNb' => $resteNb]);
 }
 
 
