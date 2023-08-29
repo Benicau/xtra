@@ -1,14 +1,23 @@
 {% extends 'base.html.twig' %}{# menu anchor variable #}
 {% block title %}Système de caisse de Xtra Copy: index{% endblock %}
-{% set position = 2 %} 
+{% set position = 2 %}
 {% block body %}
-<h1>Caisse de Xtra Copy : Acceuil</h1>
+<h1>Caisse de Xtra Copy : Comptabilité</h1>
 <div class="cadrePrincipal">
- <p>Total des factures de la journée : {{ total }} euros</p>
-    
-
-</div>      
-    {% include "partials/_menuCaisse.html.twig" %}
+<div class="viewCaisse">
+<h2>Totaux de la journée</h2>
+    <ul>
+        <li>
+        <p><i class="fa-solid fa-wallet"> </i>{{totalBancontact}} €</p>  
+        </li>
+         <li>
+         <p><i class="fa-solid fa-sack-dollar"> </i>{{totalCash}} €</p>   
+        </li>
+    </ul>
+    <p class="totalInfo">{{ total }} €</p>
+</div>
+</div>
+{% include "partials/_menuCaisse.html.twig" %}
 
 
 

@@ -2,26 +2,28 @@
 
 namespace App\Controller;
 
-use App\Entity\Abonnements;
-use App\Entity\Bindings;
-use App\Entity\TypePaper;
-use App\Entity\Imprimantes;
 use App\Entity\Photos;
+use App\Entity\Bindings;
+use App\Entity\Invoices;
+use App\Entity\TypePaper;
+use App\Entity\Abonnements;
+use App\Entity\Imprimantes;
 use App\Entity\Pricecopynb;
 use App\Form\PaperFormType;
+use App\Form\PhotosFormType;
+use App\Form\BindingFormType;
 use App\Entity\Pricecopycolor;
 use App\Form\AbonnementFormType;
-use App\Form\BindingFormType;
 use App\Form\ImprimanteFormType;
-use App\Form\PhotosFormType;
-use App\Form\PriceCopyColorFormType;
 use App\Form\PriceCopyNbFormType;
-use App\Repository\AbonnementsRepository;
+use App\Form\PriceCopyColorFormType;
+use App\Repository\PhotosRepository;
 use App\Repository\BindingsRepository;
+use App\Repository\InvoicesRepository;
 use App\Repository\TypePaperRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\AbonnementsRepository;
 use App\Repository\ImprimantesRepository;
-use App\Repository\PhotosRepository;
 use App\Repository\PricecopynbRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use App\Repository\PricecopycolorRepository;
@@ -32,34 +34,86 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AdminPageController extends AbstractController
 {
+
+    /**
+     * Controller action for rendering the admin page
+     *
+     * @return Response
+     */
     #[Route('/admin', name: 'app_admin_page')]
     public function index(): Response
     {
         $user = $this->getUser();
-
         return $this->render('admin_page/index.html.twig', [
             'user' => $user,
         ]);
     }
 
-    #[Route('/parametres', name: 'indexParametre')]
-    public function parametre(): Response
+    /**
+     * Controller action for rendering the settings page in the admin section.
+     *
+     * @return Response
+     */
+        #[Route('/admin/parametres', name: 'indexParametre')]
+        public function parametre(): Response
+        {
+            $user = $this->getUser();
+            return $this->render('admin_page/indexParametres.html.twig', [
+                'user' => $user,
+                
+            ]);
+        }
+
+    /**
+     * Controller action for rendering the financial accounting index page in the admin section.
+     *
+     * @return Response
+     */
+    #[Route('/admin/comtpa/index', name: 'indexCompta')]
+    public function comptaIndex(InvoicesRepository $invoiceRepository, Request $request, PaginatorInterface $paginator): Response
     {
-        
         $user = $this->getUser();
-        return $this->render('admin_page/indexParametres.html.twig', [
+
+        $startDateString = $request->query->get('start_date');
+        $endDateString = $request->query->get('end_date');
+        $paymentMethod = $request->query->get('payment_method'); // Nouveau paramètre
+        
+
+        if ($startDateString && $endDateString) {
+            $startDate = (new \DateTime($startDateString))->setTime(0, 0, 0);
+            $endDate = (new \DateTime($endDateString))->setTime(23, 59, 59);
+
+            $invoices = $invoiceRepository->findByDateRangeAndPayment($startDate, $endDate, $paymentMethod);
+        } else {
+            $invoices = $invoiceRepository->findAll();
+        }
+        $pagination = $paginator->paginate(
+            $invoices, 
+            $request->query->getInt('page', 1), 
+            7 
+        );
+        $totalAmount = 0;
+        foreach ($invoices as $invoice) {
+        $totalAmount += $invoice->getTotal();
+    }
+
+        return $this->render('admin_page/compta.html.twig', [
             'user' => $user,
-            
+            'invoices' => $pagination,
+            'startDate' => $startDateString,
+            'endDate' => $endDateString,
+            'totalAmount' => $totalAmount,
         ]);
     }
 
 
-
-
-
-
-
-    #[Route('/parametres/imprimantes', name: 'indexPrint')]
+    /**
+     * Controller action for rendering the printers index page in the settings section of the admin panel.
+     *
+     * @param ImprimantesRepository $repository
+     * @return Response
+     */
+    #[Route('/admin/parametres/imprimantes', name: 'indexPrint')]
     public function printIndex(ImprimantesRepository $repository): Response
     {
         $imprimantes = $repository->findAll();
@@ -71,7 +125,14 @@ class AdminPageController extends AbstractController
         ]);
     }
 
-    #[Route('/parametres/imprimantes/add', name: 'addPrint')]
+    /**
+     * Controller action for adding a new printer in the settings section of the admin panel.
+     *
+     * @param EntityManagerInterface $manager
+     * @param Request $request
+     * @return Response
+     */
+    #[Route('/admin/parametres/imprimantes/add', name: 'addPrint')]
     public function printAdd(EntityManagerInterface $manager, Request $request): Response
     {
         $imprimantes = new Imprimantes;
@@ -92,7 +153,14 @@ class AdminPageController extends AbstractController
         return $this->render('admin_page/formPrint.html.twig', ['form'=>$form->createView(), 'user'=>$user]);
     }
 
-    #[Route('/parametres/imprimantes/{id}/delete', name: 'deletePrint')]
+    /**
+     * Controller action for deleting a printer in the settings section of the admin panel.
+     *
+     * @param EntityManagerInterface $manager
+     * @param Imprimantes $prints
+     * @return Response
+     */
+    #[Route('/admin/parametres/imprimantes/{id}/delete', name: 'deletePrint')]
     public function printDelete(EntityManagerInterface $manager, Imprimantes $prints ): Response
     {
         $this->addFlash('success', "Travail supprimé");
@@ -101,8 +169,16 @@ class AdminPageController extends AbstractController
          $manager->flush();
          return $this->redirectToRoute('indexPrint');
     }
-
-    #[Route('/parametres/imprimantes/{id}/edit', name: 'editPrint')]
+   
+    /**
+     * Controller action for editing a printer in the settings section of the admin panel.
+     *
+     * @param EntityManagerInterface $manager
+     * @param Imprimantes $prints
+     * @param Request $request
+     * @return Response
+     */
+    #[Route('/admin/parametres/imprimantes/{id}/edit', name: 'editPrint')]
     public function printEdit(EntityManagerInterface $manager, Imprimantes $prints, Request $request):Response
     {
         $form = $this->createForm(ImprimanteFormType::class, $prints);
@@ -121,32 +197,38 @@ class AdminPageController extends AbstractController
         return $this->render('admin_page/formPrint.html.twig', [
             "print" => $prints,
             'form'=>$form->createView(),
-            'user'=>$user
-            
+            'user'=>$user          
         ]);
-
     }
 
-
-
-
-    #[Route('/parametres/copies', name: 'indexCopies')]
+    /**
+     * Controller action for rendering the copies pricing index page in the settings section of the admin panel.
+     *
+     * @param PricecopycolorRepository $color
+     * @param PricecopynbRepository $nb
+     * @return Response
+     */
+    #[Route('/admin/parametres/copies', name: 'indexCopies')]
     public function copieIndex(PricecopycolorRepository $color, PricecopynbRepository $nb): Response
-    {
-       
+    {  
         $pricecolor = $color->findAll();
         $pricenb = $nb->findAll();
         $user = $this->getUser();
         return $this->render('admin_page/indexCopies.html.twig', [
             'user' => $user,
             'colors' => $pricecolor,
-            'nbs' => $pricenb
-            
-            
+            'nbs' => $pricenb               
         ]);  
     }
 
-    #[Route('/parametres/copies/color/add', name: 'pricecoloradd')]
+    /**
+     * Controller action for adding a new color copy price in the copies pricing section of the admin panel.
+     *
+     * @param EntityManagerInterface $manager
+     * @param Request $request
+     * @return Response
+     */
+    #[Route('/admin/parametres/copies/color/add', name: 'pricecoloradd')]
     public function printColorNew(EntityManagerInterface $manager, Request $request ): Response
     {
         $data = new Pricecopycolor();
@@ -166,18 +248,32 @@ class AdminPageController extends AbstractController
         }
         return $this->render('admin_page/formPriceCopy.html.twig', ['form'=>$form->createView(), 'user'=>$user]);
     }
-
-    #[Route('/parametres/copies/color/{id}/delete', name: 'pricecolordelete')]
+ 
+    /**
+     * Controller action for deleting a color copy price in the copies pricing section of the admin panel.
+     *
+     * @param EntityManagerInterface $manager
+     * @param Pricecopycolor $datas
+     * @return Response
+     */
+    #[Route('/admin/parametres/copies/color/{id}/delete', name: 'pricecolordelete')]
     public function printColorDelete(EntityManagerInterface $manager, Pricecopycolor $datas ): Response
     {
         $this->addFlash('success', "Prix supprimé");
-        
          $manager->remove($datas);
          $manager->flush();
          return $this->redirectToRoute('indexCopies');
     }
 
-    #[Route('/parametres/copies/color/{id}/edit', name: 'pricecoloredit')]
+    /**
+     * Controller action for editing a color copy price in the copies pricing section of the admin panel.
+     *
+     * @param EntityManagerInterface $manager
+     * @param Pricecopycolor $datas
+     * @param Request $request
+     * @return Response
+     */
+    #[Route('/admin/parametres/copies/color/{id}/edit', name: 'pricecoloredit')]
     public function printColorEdit(EntityManagerInterface $manager, Pricecopycolor $datas, Request $request):Response
     {
         $form = $this->createForm(PriceCopyColorFormType::class, $datas);
@@ -199,11 +295,16 @@ class AdminPageController extends AbstractController
             'user'=>$user
             
         ]);
-
     }
 
-
-    #[Route('/parametres/copies/nb/add', name: 'pricenbadd')]
+    /**
+     * Controller action for adding a new black and white copy price in the copies pricing section of the admin panel.
+     *
+     * @param EntityManagerInterface $manager
+     * @param Request $request
+     * @return Response
+     */
+    #[Route('/admin/parametres/copies/nb/add', name: 'pricenbadd')]
     public function printNbNew(EntityManagerInterface $manager, Request $request ): Response
     {
         $data = new Pricecopynb();
@@ -224,7 +325,14 @@ class AdminPageController extends AbstractController
         return $this->render('admin_page/formPricenb.html.twig', ['form'=>$form->createView(), 'user'=>$user]);
     }
 
-    #[Route('/parametres/copies/nb/{id}/delete', name: 'pricenbdelete')]
+   /**
+     * Controller action for deleting a black and white copy price in the copies pricing section of the admin panel
+     *
+     * @param EntityManagerInterface $manager
+     * @param Pricecopynb $datas
+     * @return Response
+     */
+    #[Route('/admin/parametres/copies/nb/{id}/delete', name: 'pricenbdelete')]
     public function printNbDelete(EntityManagerInterface $manager, Pricecopynb $datas ): Response
     {
         $this->addFlash('success', "Prix supprimé");
@@ -234,7 +342,15 @@ class AdminPageController extends AbstractController
          return $this->redirectToRoute('indexCopies');
     }
 
-    #[Route('/parametres/copies/nb/{id}/edit', name: 'pricenbedit')]
+    /**
+     * Controller action for editing a black and white copy price in the copies pricing section of the admin panel.
+     *
+     * @param EntityManagerInterface $manager
+     * @param Pricecopynb $datas
+     * @param Request $request
+     * @return Response
+     */
+    #[Route('/admin/parametres/copies/nb/{id}/edit', name: 'pricenbedit')]
     public function printNbEdit(EntityManagerInterface $manager, Pricecopynb $datas, Request $request):Response
     {
         $form = $this->createForm(PriceCopyNbFormType::class, $datas);
@@ -256,12 +372,15 @@ class AdminPageController extends AbstractController
             'user'=>$user
             
         ]);
-
     }
 
-
-
-    #[Route('/parametres/abonnements', name: 'indexAbonnement')]
+    /**
+     * Controller action for rendering the subscriptions index page in the settings section of the admin panel.
+     *
+     * @param AbonnementsRepository $abo
+     * @return Response
+     */
+    #[Route('/admin/parametres/abonnements', name: 'indexAbonnement')]
     public function copieAbo(AbonnementsRepository $abo): Response
     {
         
@@ -273,7 +392,14 @@ class AdminPageController extends AbstractController
         ]);
     }
 
-    #[Route('/parametres/abonnements/add', name: 'addAbonnement')]
+    /**
+     * Controller action for adding a new price of subscription in the subscriptions section of the admin panel.
+     *
+     * @param EntityManagerInterface $manager
+     * @param Request $request
+     * @return Response
+     */
+    #[Route('/admin/parametres/abonnements/add', name: 'addAbonnement')]
     public function addAbo(EntityManagerInterface $manager, Request $request ): Response
     {
         $data = new Abonnements();
@@ -294,8 +420,14 @@ class AdminPageController extends AbstractController
         return $this->render('admin_page/formAbonnements.html.twig', ['form'=>$form->createView(), 'user'=>$user]);
     }
 
-
-    #[Route('/parametres/abonnements/{id}/delete', name: 'deleteAbonnement')]
+    /**
+     * Controller action for deleting a price of subscription in the subscriptions section of the admin panel.
+     *
+     * @param EntityManagerInterface $manager
+     * @param Abonnements $datas
+     * @return Response
+     */
+    #[Route('/admin/parametres/abonnements/{id}/delete', name: 'deleteAbonnement')]
     public function deleteAbo(EntityManagerInterface $manager, Abonnements $datas ): Response
     {
         $this->addFlash('success', "Prix supprimé");
@@ -304,7 +436,15 @@ class AdminPageController extends AbstractController
          $manager->flush();
          return $this->redirectToRoute('indexAbonnement');
     }
-
+     
+    /**
+     * Controller action for editing a price of subscription in the subscriptions section of the admin panel.
+     *
+     * @param EntityManagerInterface $manager
+     * @param Abonnements $datas
+     * @param Request $request
+     * @return Response
+     */
     #[Route('/parametres/abonnements/{id}/edit', name: 'editAbonnement')]
     public function editAbo(EntityManagerInterface $manager, Abonnements $datas, Request $request):Response
     {
@@ -327,7 +467,17 @@ class AdminPageController extends AbstractController
             'user'=>$user
             
         ]);
+    }
 
+
+    #[Route('/admin/compta/invoice/delete/{id}', name: 'app_delete_invoice', methods: ['GET'])]
+    public function deleteInvoice(EntityManagerInterface $manager, Invoices $invoice): Response
+    {
+        $this->addFlash('success', "Opération supprimé");
+        $manager->remove($invoice);
+        $manager->flush();
+        
+        return $this->redirectToRoute('indexCompta');
     }
 
 
@@ -445,7 +595,7 @@ class AdminPageController extends AbstractController
 
 
 
-    #[Route('/parametres/reliures', name: 'indexReliures')]
+    #[Route('/admin/parametres/reliures', name: 'indexReliures')]
     public function bindingsIndex(BindingsRepository $bindings, PaginatorInterface $paginator, Request $request): Response
     {
         $user = $this->getUser();

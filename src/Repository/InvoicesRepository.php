@@ -21,6 +21,24 @@ class InvoicesRepository extends ServiceEntityRepository
         parent::__construct($registry, Invoices::class);
     }
 
+    public function findByDateRangeAndPayment($startDate, $endDate, $paymentMethod)
+    {
+    $queryBuilder = $this->createQueryBuilder('i')
+        ->andWhere('i.date >= :startDate')
+        ->andWhere('i.date <= :endDate')
+        ->setParameter('startDate', $startDate)
+        ->setParameter('endDate', $endDate)
+        ->orderBy('i.date', 'ASC');
+
+    if ($paymentMethod !== 'all') {
+        $queryBuilder->andWhere('i.paymentMethod = :paymentMethod')
+            ->setParameter('paymentMethod', $paymentMethod);
+    }
+
+    return $queryBuilder->getQuery()->getResult();
+    }
+
+
     public function save(Invoices $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);

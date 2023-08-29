@@ -1,0 +1,102 @@
+{% extends 'base.html.twig' %}
+{% set position = 5 %} {# menu anchor variable #}
+{% block title %}Admin Xtra Copy: Admin/comptabilité{% endblock %}
+{% block body %}
+<h1>Administation de Xtra Copy Tournai : Comptabilité</h1>
+<div class="cadrePrincipal">
+    <div class="list">
+        <form method="get" action="{{ path('indexCompta') }}" class="formInvoice">
+         <div class="groupInput">
+            <label for="start_date">Date de début:</label>
+            <input type="date" id="start_date" name="start_date" value="{{ startDate }}" />
+         </div>
+         <div class="groupInput">
+            <label for="end_date">Date de fin:</label>
+            <input type="date" id="end_date" name="end_date" value="{{ endDate }}" />
+         </div>
+        <div class="groupInput">
+            <label for="payment_method">Méthode de paiement:</label>
+            <select id="payment_method" name="payment_method">
+                <option value="all">Tous</option>
+                <option value="cash">Cash</option>
+                <option value="bancontact">Bancontact</option>
+            </select>
+        </div>
+            <button type="submit" id="searchButton">Recherche</button>
+        </form>
+        <table>
+            <thead>
+                <tr>
+                    <th>Numéro</th>
+                    <th>Date</th>
+                    <th>Client</th>
+                    <th>Employé</th>
+                    <th>Montant</th>
+                    <th>Paiement</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for invoice in invoices %}
+                <tr>
+                    <td>{{ invoice.id }}</td>
+                    <td data-date={{invoice.date|date('d/m/Y')}}>
+                        {{ invoice.date|date('d/m/Y H:i:s', 'Europe/Brussels') }}</td>
+                    <td>
+                        {% if invoice.client == -1 %}
+                        Vente au comptoir
+                        {% else %}
+                        {{ invoice.client }}
+                        {% endif %}
+                    </td>
+                    <td>{{ user.name }} {{ user.surname }}</td>
+                    <td>{{ invoice.total }} €</td>
+                    <td>{{ invoice.paymentMethod }}</td>
+                    <td class="link link2">
+                        <a href="{{ path('app_pdf_admin', {'id': invoice.id}) }}" target="_blank" class="modif">facture</a>
+                        <a href="{{ path('app_delete_invoice', {'id': invoice.id}) }}" class="delete" >Supprimer</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {{ knp_pagination_render(invoices) }}
+    </div>
+    <div class="tcompta">
+    <h2>Total = {{ totalAmount }} €</h2>
+    </div>
+
+</div>
+{% include "partials/_menuAdmin.html.twig" %}
+{% block javascript %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const startDateInput = document.getElementById('start_date');
+        const endDateInput = document.getElementById('end_date');
+        const searchButton = document.getElementById('searchButton');
+
+        const today = new Date();
+        const formattedToday = today.toISOString().substr(0, 10);
+
+        startDateInput.value = '{{ startDate }}' || formattedToday;
+        endDateInput.value = '{{ endDate }}' || formattedToday;
+
+        startDateInput.max = formattedToday;
+        endDateInput.max = formattedToday;
+
+        searchButton.addEventListener('click', function (event) {
+            const startDateValue = startDateInput.value;
+            const endDateValue = endDateInput.value;
+
+            if (startDateValue > endDateValue) {
+                startDateInput.value = endDateValue;
+                endDateInput.value = startDateValue;
+            }
+        });
+    });
+</script>
+
+
+
+{% endblock %}
+{% endblock %}

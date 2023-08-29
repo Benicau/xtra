@@ -63,22 +63,19 @@
                 <p>{{ photo.price }}€</p>
                 <input type="number" value=0 dataprice={{ photo.price }} dataname="{{ photo.Name }}" datacat="{{ catPhoto.Name}}">
             </div>
-            
-            
             {% endif %}
             {% endfor %}
             {% endfor %}
-
         </div>
     </div>
-            {% for nb in nbs %}
-               <div class="data-nb" data-start="{{ nb.Begin}}" data-end="{{ nb.End}}" data-price="{{ nb.Price}}">
-            </div> 
-            {% endfor %}
-            {% for color in colors %}
-               <div class="data-color" data-start="{{ color.Begin}}" data-end="{{ color.End}}" data-price="{{ color.Price}}">
-            </div> 
-            {% endfor %}
+    {% for nb in nbs %}
+        <div class="data-nb" data-start="{{ nb.Begin}}" data-end="{{ nb.End}}" data-price="{{ nb.Price}}">
+        </div> 
+    {% endfor %}
+    {% for color in colors %}
+        <div class="data-color" data-start="{{ color.Begin}}" data-end="{{ color.End}}" data-price="{{ color.Price}}">
+        </div> 
+    {% endfor %}
     <div class="autre">
         <h3>Divers</h3>
         <div class="center">
@@ -105,7 +102,5 @@
 {% include "partials/_menuCaisse.html.twig" %}
 {% endblock %}
 {% block javascripts %}
-   
-
     {{ encore_entry_script_tags('caisse') }}
 {% endblock %}

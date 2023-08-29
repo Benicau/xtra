@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Entity\Invoices;
 use App\Form\AbonnesType;
-use App\Form\WorkersType;
 use App\Entity\PrintQueue;
 use App\Form\ClientFormType;
 use App\Form\InvoiceFormType;
@@ -44,27 +43,55 @@ class CaisseController extends AbstractController
 public function compta(EntityManagerInterface $entityManager): Response
 {
     $user = $this->getUser();
-
     $startDate = new \DateTime();
     $startDate->setTime(0, 0, 0); // Début de la journée
-
     $endDate = new \DateTime();
     $endDate->setTime(23, 59, 59); // Fin de la journée
-
     $invoicesRepository = $entityManager->getRepository(Invoices::class);
-    $invoices = $invoicesRepository->createQueryBuilder('i')
+
+    // Filtrer les factures avec paiement 'cash' pour l'utilisateur connecté
+    $cashInvoices = $invoicesRepository->createQueryBuilder('i')
         ->where('i.date BETWEEN :startDate AND :endDate')
+        ->andWhere('i.paymentMethod = :paymentMethod')
+        ->andWhere('i.user = :user') // Filtre par utilisateur connecté
         ->setParameter('startDate', $startDate)
         ->setParameter('endDate', $endDate)
+        ->setParameter('paymentMethod', 'cash')
+        ->setParameter('user', $user)
         ->getQuery()
         ->getResult();
-    
-    $total = 0;
-    foreach ($invoices as $invoice) {
-        $total += $invoice->getTotal();
+
+    // Filtrer les factures avec paiement 'bancontact' pour l'utilisateur connecté
+    $bancontactInvoices = $invoicesRepository->createQueryBuilder('i')
+        ->where('i.date BETWEEN :startDate AND :endDate')
+        ->andWhere('i.paymentMethod = :paymentMethod')
+        ->andWhere('i.user = :user') // Filtre par utilisateur connecté
+        ->setParameter('startDate', $startDate)
+        ->setParameter('endDate', $endDate)
+        ->setParameter('paymentMethod', 'bancontact')
+        ->setParameter('user', $user)
+        ->getQuery()
+        ->getResult();
+
+    $totalCash = 0;
+    foreach ($cashInvoices as $invoice) {
+        $totalCash += $invoice->getTotal();
     } 
 
-    return $this->render('caisse/compta.html.twig', ['user' => $user, 'total' => $total]);
+    $totalBancontact = 0;
+    foreach ($bancontactInvoices as $invoice) {
+        $totalBancontact += $invoice->getTotal();
+    } 
+
+    // Calculer le total général (cash + bancontact)
+    $total = $totalCash + $totalBancontact;
+
+    return $this->render('caisse/compta.html.twig', [
+        'user' => $user,
+        'totalCash' => $totalCash,
+        'totalBancontact' => $totalBancontact,
+        'total' => $total
+    ]);
 }
 
 
@@ -242,7 +269,7 @@ public function Copie( EntityManagerInterface $manager ,Request $request, CatBin
     $colors = $typeColors ->findAll();
     $nbs = $typeNbs -> findAll();
     $invoices = new Invoices; 
-    $invoices->setClient(-1);
+    $invoices->setClient("Vente au comptoir");
     $form = $this->createForm(InvoiceFormType::class, $invoices);
     $form->handleRequest($request);
     $invoices->setUser($user);
@@ -294,8 +321,11 @@ public function aboCopie(EntityManagerInterface $manager, Request $request, CatB
     $photos = $typePhotos->findAll();
     $colors = $typeColors->findAll();
     $nbs = $typeNbs->findAll();
+    $userEntity = $manager->getRepository(User::class)->find($userId);
+    $userName = $userEntity->getName();
+    $userSurname = $userEntity->getSurname();
     $invoices = new Invoices;
-    $invoices->setClient($userId);
+    $invoices->setClient($userName . ' ' . $userSurname);
     $form = $this->createForm(InvoiceFormType::class, $invoices);
     $form->handleRequest($request);
     $invoices->setUser($user);

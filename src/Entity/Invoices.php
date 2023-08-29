@@ -17,8 +17,8 @@ class Invoices
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $date = null;
 
-    #[ORM\Column]
-    private ?int $client = null;
+    #[ORM\Column(length: 255)] 
+    private ?string $client = null;
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $texte = null;
@@ -54,12 +54,12 @@ class Invoices
         return $this;
     }
 
-    public function getClient(): ?int
+    public function getClient(): ?string
     {
         return $this->client;
     }
 
-    public function setClient(int $client): static
+    public function setClient(string $client): static
     {
         $this->client = $client;
         return $this;

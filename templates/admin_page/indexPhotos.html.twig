@@ -19,7 +19,7 @@
         <tbody>
             {% for pagination in paginations %}
             <tr>
-                <td>{{pagination.catPhotos.CatName}}</td>
+                <td>{{pagination.catPhotos.Name}}</td>
                 <td>{{pagination.name}}</td>
                 <td>{{pagination.price | round(2)}}</td>
                 <td class="link"><a href="{{path('editPhotos',{'id': pagination.id})}}" class="modif">Modifier</a>
