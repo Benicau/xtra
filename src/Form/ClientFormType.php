@@ -21,25 +21,25 @@ class ClientFormType extends AbstractType
                 'placeholder' => "",
             ],
         ])
-            ->add('name', TextType::class, [ // Champ pour le nom
+            ->add('name', TextType::class, [ 
                 'label' => "Nom",
                 'attr' => [
                     'placeholder' => "",
                 ],
             ])
-            ->add('surname', TextType::class, [ // Champ pour le prénom
+            ->add('surname', TextType::class, [
                 'label' => "Prénom",
                 'attr' => [
                     'placeholder' => "",
                 ],
             ])
-            ->add('nbrColor', IntegerType::class, [ // Champ pour le nombre de couleurs
+            ->add('nbrColor', IntegerType::class, [ 
                 'label' => "Couleurs",
                 'attr' => [
                     'placeholder' => "",
                 ],
             ])
-            ->add('nbrNb', IntegerType::class, [ // Champ pour le nombre en noir et blanc
+            ->add('nbrNb', IntegerType::class, [ 
                 'label' => "Noir et blanc",
                 'attr' => [
                     'placeholder' => "",

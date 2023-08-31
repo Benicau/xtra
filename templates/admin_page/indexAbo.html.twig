@@ -1,12 +1,18 @@
 {% extends 'base.html.twig' %}
 {% set position = 3 %} {# menu anchor variable #}
-{% block title %}Admin Xtra Copy: Index Papiers{% endblock %}
+{% block title %}Admin Xtra Copy: Index Abonnement{% endblock %}
 {% block body %}
 <h1>Administation de Xtra Copy Tournai : Index Abonnement</h1>
 <div class="cadrePrincipal">
 
    <div class="list">
    <a href="{{ path('addAbonnement')}}" class='ajoute'>Ajouter</a>
+   {% for message in app.flashes('success') %}
+    <div class="alert alert-success mt-2">
+        {{ message }}
+    </div>
+    {% endfor %}
+   
         <table>
         <thead>
             <tr>

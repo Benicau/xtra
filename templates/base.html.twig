@@ -1,25 +1,33 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="Content-Type" content="UTF-8">
-        <meta name="Content-Language" content="fr">
+<head>
+    <!-- Meta tags -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="Content-Type" content="UTF-8">
+    <meta name="Content-Language" content="fr">
+    <link rel="icon" type="image/jpg" href="{{ asset('images/favicon-16x16.png') }}" />
 
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        
-        {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
-        {% endblock %}
+    <!-- Page title -->
+    <title>{% block title %}Welcome!{% endblock %}</title>
 
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-            <script src="https://kit.fontawesome.com/e6a7279d9f.js" crossorigin="anonymous"></script> <!-- Add fontawesome icon-->
-        {% endblock %}
-    </head>
-    <body>
-        <div class="fond"></div>
-        {% block body %}{% endblock %}
-    </body>
+    <!-- Stylesheets -->
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }} <!-- Load stylesheet for 'app' -->
+    {% endblock %}
+
+    <!-- JavaScripts -->
+    {% block javascripts %}
+        {{ encore_entry_script_tags('app') }} <!-- Load JavaScript for 'app' -->
+        <script src="https://kit.fontawesome.com/e6a7279d9f.js" crossorigin="anonymous"></script> <!-- Add Font Awesome icons -->
+    {% endblock %}
+</head>
+<body>
+    <!-- Background element -->
+    <div class="fond"></div>
+    
+    <!-- Main content -->
+    {% block body %}{% endblock %}
+</body>
 </html>

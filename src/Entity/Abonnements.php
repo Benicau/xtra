@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\AbonnementsRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: AbonnementsRepository::class)]
 class Abonnements
@@ -14,9 +15,11 @@ class Abonnements
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Assert\NotNull]
     private ?int $nbcopy = null;
 
     #[ORM\Column]
+    #[Assert\NotNull]
     private ?float $price = null;
 
     #[ORM\ManyToOne(inversedBy: 'Idabonnement')]
@@ -33,10 +36,9 @@ class Abonnements
         return $this->nbcopy;
     }
 
-    public function setNbcopy(int $nbcopy): static
+    public function setNbcopy(int $nbcopy): self
     {
         $this->nbcopy = $nbcopy;
-
         return $this;
     }
 
@@ -45,10 +47,9 @@ class Abonnements
         return $this->price;
     }
 
-    public function setPrice(float $price): static
+    public function setPrice(float $price): self
     {
         $this->price = $price;
-
         return $this;
     }
 
@@ -57,10 +58,9 @@ class Abonnements
         return $this->catAbonnement;
     }
 
-    public function setCatAbonnement(?CatAbonnement $catAbonnement): static
+    public function setCatAbonnement(?CatAbonnement $catAbonnement): self
     {
         $this->catAbonnement = $catAbonnement;
-
         return $this;
     }
 }

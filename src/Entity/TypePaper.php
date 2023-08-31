@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\TypePaperRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: TypePaperRepository::class)]
 class TypePaper
@@ -14,9 +15,11 @@ class TypePaper
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
     private ?string $Name = null;
 
     #[ORM\Column]
+    #[Assert\NotNull]
     private ?float $Price = null;
 
     #[ORM\ManyToOne(inversedBy: 'TypePaperId')]
@@ -33,7 +36,7 @@ class TypePaper
         return $this->Name;
     }
 
-    public function setName(string $Name): static
+    public function setName(string $Name): self
     {
         $this->Name = $Name;
 
@@ -45,7 +48,7 @@ class TypePaper
         return $this->Price;
     }
 
-    public function setPrice(float $Price): static
+    public function setPrice(float $Price): self
     {
         $this->Price = $Price;
 
@@ -57,7 +60,7 @@ class TypePaper
         return $this->catTypePaper;
     }
 
-    public function setCatTypePaper(?CatTypePaper $catTypePaper): static
+    public function setCatTypePaper(?CatTypePaper $catTypePaper): self
     {
         $this->catTypePaper = $catTypePaper;
 

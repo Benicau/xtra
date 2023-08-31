@@ -9,20 +9,28 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
 {
-    #[Route(path: '/', name: 'app_login')]
+    /**
+     * Controller action for rendering the login page
+     *
+     * @param AuthenticationUtils $authenticationUtils
+     * @return Response
+     */
+    #[Route(path: '/loginXtraCopy11', name: 'app_login')]
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
-        // get the login error if there is one
-        $error = $authenticationUtils->getLastAuthenticationError();
-        // last username entered by the user
+        $error = $authenticationUtils->getLastAuthenticationError(); 
         $lastUsername = $authenticationUtils->getLastUsername();
-
         return $this->render('security/login.html.twig', [
             'last_username' => $lastUsername,
             'error' => $error
         ]);
     }
 
+    /**
+     * Controller action for handling logout
+     *
+     * @return void
+     */
     #[Route(path: '/logout', name: 'app_logout')]
     public function logout(): void
     {

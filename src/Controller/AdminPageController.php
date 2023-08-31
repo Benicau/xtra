@@ -163,7 +163,7 @@ class AdminPageController extends AbstractController
     #[Route('/admin/parametres/imprimantes/{id}/delete', name: 'deletePrint')]
     public function printDelete(EntityManagerInterface $manager, Imprimantes $prints ): Response
     {
-        $this->addFlash('success', "Travail supprimé");
+        $this->addFlash('success', "Votre nouvelle imprimante a bien été supprimée");
         
          $manager->remove($prints);
          $manager->flush();
@@ -445,7 +445,7 @@ class AdminPageController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    #[Route('/parametres/abonnements/{id}/edit', name: 'editAbonnement')]
+    #[Route('/admin/parametres/abonnements/{id}/edit', name: 'editAbonnement')]
     public function editAbo(EntityManagerInterface $manager, Abonnements $datas, Request $request):Response
     {
         $form = $this->createForm(AbonnementFormType::class, $datas);
@@ -457,7 +457,7 @@ class AdminPageController extends AbstractController
             $manager->flush();
             $this->addFlash(
                 'success',
-                "Votre nouvelle abonnement à bien été modifier"
+                "Votre abonnement à bien été modifié"
             );
             return $this->redirectToRoute('indexAbonnement');
         }
@@ -469,7 +469,14 @@ class AdminPageController extends AbstractController
         ]);
     }
 
-
+ 
+    /**
+     * Controller action for deleting an invoice in the financial section of the admin panel.
+     *
+     * @param EntityManagerInterface $manager
+     * @param Invoices $invoice
+     * @return Response
+     */
     #[Route('/admin/compta/invoice/delete/{id}', name: 'app_delete_invoice', methods: ['GET'])]
     public function deleteInvoice(EntityManagerInterface $manager, Invoices $invoice): Response
     {
@@ -481,40 +488,15 @@ class AdminPageController extends AbstractController
     }
 
 
-
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    #[Route('/parametres/papers', name: 'indexPapers')]
+    /**
+     * Controller action for displaying a paginated list of papers prices in the admin panel.
+     *
+     * @param TypePaperRepository $paper
+     * @param PaginatorInterface $paginator
+     * @param Request $request
+     * @return Response
+     */
+    #[Route('admin/parametres/papers', name: 'indexPapers')]
     public function paperIndex(TypePaperRepository $paper, PaginatorInterface $paginator, Request $request): Response
     {
         $user = $this->getUser();
@@ -522,7 +504,7 @@ class AdminPageController extends AbstractController
     $pagination = $paginator->paginate(
         $queryBuilder->getQuery(),
         $request->query->getInt('page', 1),
-        8 // Number of results per page
+        8 
     );
         
         return $this->render('admin_page/indexPapers.html.twig', [
@@ -531,7 +513,14 @@ class AdminPageController extends AbstractController
         ]);
     }
 
-    #[Route('/parametres/papers/add', name: 'addpaper')]
+    /**
+     * Controller action for adding a new paper type price in the admin panel.
+     *
+     * @param EntityManagerInterface $manager
+     * @param Request $request
+     * @return Response
+     */
+    #[Route('/admin/parametres/papers/add', name: 'addpaper')]
     public function paperAdd(EntityManagerInterface $manager, Request $request): Response
     {
         $paper = new TypePaper;
@@ -552,7 +541,15 @@ class AdminPageController extends AbstractController
         return $this->render('admin_page/formPaper.html.twig', ['form'=>$form->createView(), 'user'=>$user]);
     }
 
-    #[Route('/parametres/paper/{id}/delete', name: 'deletepaper')]
+    
+    /**
+     * Controller action for deleting a paper type price in the admin panel.
+     *
+     * @param EntityManagerInterface $manager
+     * @param TypePaper $paper
+     * @return Response
+     */
+    #[Route('/admin/parametres/paper/{id}/delete', name: 'deletepaper')]
     public function paperDelete(EntityManagerInterface $manager, TypePaper $paper ): Response
     {
         $this->addFlash('success', "Type papier supprimé");
@@ -563,7 +560,15 @@ class AdminPageController extends AbstractController
     }
 
 
-    #[Route('/parametres/paper/{id}/edit', name: 'editPaper')]
+    /**
+     * Controller action for editing a paper type price in the admin panel.
+     *
+     * @param EntityManagerInterface $manager
+     * @param TypePaper $data
+     * @param Request $request
+     * @return Response
+     */
+    #[Route('/admin/parametres/paper/{id}/edit', name: 'editPaper')]
     public function paperEdit(EntityManagerInterface $manager, TypePaper $data, Request $request):Response
     {
         $form = $this->createForm(PaperFormType::class, $data);
@@ -575,7 +580,7 @@ class AdminPageController extends AbstractController
             $manager->flush();
             $this->addFlash(
                 'success',
-                "Votre type de papier a bien été modifiée"
+                "Votre type de papier a bien été modifié"
             );
             return $this->redirectToRoute('indexPapers');
         }
@@ -588,13 +593,14 @@ class AdminPageController extends AbstractController
 
     }
 
-
-
-
-
-
-
-
+    /**
+     * Controller action for displaying a paginated list of bindings price in the admin panel.
+     *
+     * @param BindingsRepository $bindings
+     * @param PaginatorInterface $paginator
+     * @param Request $request
+     * @return Response
+     */
     #[Route('/admin/parametres/reliures', name: 'indexReliures')]
     public function bindingsIndex(BindingsRepository $bindings, PaginatorInterface $paginator, Request $request): Response
     {
@@ -612,16 +618,31 @@ class AdminPageController extends AbstractController
          ]);
         }
     
-    #[Route('/parametres/reliures/{id}/delete', name: 'deleteReliures')]
+    /**
+     * Controller action for deleting a binding price in the admin panel.
+     *
+     * @param EntityManagerInterface $manager
+     * @param Bindings $bindings
+     * @return Response
+     */
+    #[Route('/admin/parametres/reliures/{id}/delete', name: 'deleteReliures')]
     public function bindingsDelete(EntityManagerInterface $manager, Bindings $bindings ): Response
     {
-        $this->addFlash('success', "Reliure supprimé");     
+        $this->addFlash('success', "Reliure supprimée");     
         $manager->remove($bindings);
         $manager->flush();
         return $this->redirectToRoute('indexReliures');
     }
 
-    #[Route('/parametres/reliures/add', name: 'addReliures')]
+
+    /**
+     * Controller action for adding a binding price in the admin panel.
+     *
+     * @param EntityManagerInterface $manager
+     * @param Request $request
+     * @return Response
+     */
+    #[Route('/admin/parametres/reliures/add', name: 'addReliures')]
     public function bindingsAdd(EntityManagerInterface $manager, Request $request): Response
     {
         $data = new Bindings;
@@ -635,14 +656,22 @@ class AdminPageController extends AbstractController
 
             $this->addFlash(
                 'success',
-                "Votre reliures a bien été créé"
+                "Votre reliures a bien été créée"
             );
             return $this->redirectToRoute('indexReliures');
         }
         return $this->render('admin_page/formBindings.html.twig', ['form'=>$form->createView(), 'user'=>$user]);
     }
 
-    #[Route('/parametres/reliures/{id}/edit', name: 'editReliures')]
+    /**
+     * Controller action for editing a binding price in the admin panel.
+     *
+     * @param EntityManagerInterface $manager
+     * @param Bindings $data
+     * @param Request $request
+     * @return Response
+     */
+    #[Route('/admin/parametres/reliures/{id}/edit', name: 'editReliures')]
     public function bindingsEdit(EntityManagerInterface $manager, Bindings $data, Request $request):Response
     {
         $form = $this->createForm(BindingFormType::class, $data);
@@ -666,12 +695,16 @@ class AdminPageController extends AbstractController
         ]);
 
     }
-
-
-
-
-   
-    #[Route('/parametres/photos', name: 'indexPhotos')]
+ 
+    /**
+     * ontroller action for displaying a paginated list of photos prices in the admin panel.
+     *
+     * @param PhotosRepository $photos
+     * @param PaginatorInterface $paginator
+     * @param Request $request
+     * @return Response
+     */
+    #[Route('/admin/parametres/photos', name: 'indexPhotos')]
     public function photosIndex(PhotosRepository $photos, PaginatorInterface $paginator, Request $request): Response
     {
         $user = $this->getUser();
@@ -687,17 +720,32 @@ class AdminPageController extends AbstractController
             'paginations'=>$pagination
          ]);
         }
-    
-    #[Route('/parametres/photos/{id}/delete', name: 'deletePhotos')]
+
+    /**
+     * Controller action for deleting a photo price in the admin panel.
+     *
+     * @param EntityManagerInterface $manager
+     * @param Photos $photos
+     * @return Response
+     */
+    #[Route('/admin/parametres/photos/{id}/delete', name: 'deletePhotos')]
     public function photosDelete(EntityManagerInterface $manager, Photos $photos ): Response
     {
-        $this->addFlash('success', "Prix photos supprimé");     
+        $this->addFlash('success', "Prix photo supprimé");     
         $manager->remove($photos);
         $manager->flush();
         return $this->redirectToRoute('indexPhotos');
     }
 
-    #[Route('/parametres/photos/add', name: 'addPhotos')]
+
+    /**
+     * Controller action for adding a new photo price in the admin panel.
+     *
+     * @param EntityManagerInterface $manager
+     * @param Request $request
+     * @return Response
+     */
+    #[Route('/admin/parametres/photos/add', name: 'addPhotos')]
     public function photosAdd(EntityManagerInterface $manager, Request $request): Response
     {
         $data = new Photos;
@@ -711,14 +759,22 @@ class AdminPageController extends AbstractController
 
             $this->addFlash(
                 'success',
-                "Votre prix photo a bien été créé"
+                "Votre nouveau prix photo a bien été créé"
             );
             return $this->redirectToRoute('indexPhotos');
         }
         return $this->render('admin_page/formPhotos.html.twig', ['form'=>$form->createView(), 'user'=>$user]);
     }
 
-    #[Route('/parametres/photos/{id}/edit', name: 'editPhotos')]
+    /**
+     * Controller action for editing a photo price in the admin panel.
+     *
+     * @param EntityManagerInterface $manager
+     * @param Photos $data
+     * @param Request $request
+     * @return Response
+     */
+    #[Route('/admin/parametres/photos/{id}/edit', name: 'editPhotos')]
     public function photosEdit(EntityManagerInterface $manager, Photos $data, Request $request):Response
     {
         $form = $this->createForm(PhotosFormType::class, $data);
@@ -730,7 +786,7 @@ class AdminPageController extends AbstractController
             $manager->flush();
             $this->addFlash(
                 'success',
-                "Votre prix photo a bien été modifiée"
+                "Votre prix photo a bien été modifié"
             );
             return $this->redirectToRoute('indexPhotos');
         }
@@ -742,17 +798,6 @@ class AdminPageController extends AbstractController
         ]);
 
     }
-
-
-
-
-
-
-
-
-
-
-
 
 }
 

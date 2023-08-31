@@ -24,6 +24,11 @@
         </div>
             <button type="submit" id="searchButton">Recherche</button>
         </form>
+        {% for message in app.flashes('success') %}
+    <div class="alert alert-success mt-2">
+        {{ message }}
+    </div>
+    {% endfor %}
         <table>
             <thead>
                 <tr>

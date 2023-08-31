@@ -1,6 +1,8 @@
 // reset scss
 @import 'assets/styles/reset.scss';
 
+
+
 @font-face {
     font-family: 'roboto';
     src: url(../styles/polices/Roboto-Regular.ttf);
@@ -20,9 +22,58 @@
     background-image: url("../../public/img/pattern.png");
     opacity: 0.75;
 
-
-
-
+}
+.connection{
+    
+    form{
+        background-color: white;
+        width: 670px;
+        margin: auto;
+        display: flex;
+        flex-direction: column;
+        margin-top: 200px;
+        padding: 25px;
+        border-radius: 15px;
+        padding-top: 50px;
+        padding-bottom: 50px;
+        .double{
+            padding-bottom: 20px;
+            display: flex;
+            justify-content:space-between;
+            input{
+                width: 450px;
+                height: 30px;
+                border: none;
+                border-radius: 5px;
+                padding-left: 15px;
+                font-size: 20px;
+            }
+            label{
+                color: black;
+                font-size: 20px;
+            }
+        }
+        .btn{
+            border:none;
+            background-color: #1EABDC;
+            font-size: 20px;
+            border-radius: 7px;
+            color: white;
+            width: 120px;
+            margin: auto;
+            padding: 15px;
+            margin-top: 25px;
+            opacity: 0.8;
+            cursor: pointer;
+            &:hover{
+                opacity: 1;
+            }
+        }
+        .deco{
+            margin-top: 30px;
+        }
+        
+    }
 }
 
 
@@ -325,9 +376,9 @@ h3{
 
     .alert {
         color: red;
-        font-size: 30px;
+        font-size: 22px;
         text-align: center;
-        margin-top: 50px;
+        margin-top: 10px;
     }
    
 

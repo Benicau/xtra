@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\PricecopynbRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PricecopynbRepository::class)]
 class Pricecopynb
@@ -14,12 +15,15 @@ class Pricecopynb
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank]
     private ?int $Begin = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank]
     private ?int $End = null;
 
     #[ORM\Column]
+    #[Assert\NotNull]
     private ?float $Price = null;
 
     public function getId(): ?int

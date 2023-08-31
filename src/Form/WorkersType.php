@@ -26,13 +26,13 @@ class WorkersType extends AbstractType
                     'placeholder' => "",
                 ],
             ])
-            ->add('name', TextType::class, [ // Champ pour le nom
+            ->add('name', TextType::class, [ 
                 'label' => "Nom",
                 'attr' => [
                     'placeholder' => "",
                 ],
             ])
-            ->add('surname', TextType::class, [ // Champ pour le prénom
+            ->add('surname', TextType::class, [ 
                 'label' => "Prénom",
                 'attr' => [
                     'placeholder' => "",
@@ -49,19 +49,19 @@ class WorkersType extends AbstractType
                 ],
                 'label' => "Rôle",
             ])
-            ->add('password', PasswordType::class, [ // Champ pour le mot de passe
+            ->add('password', PasswordType::class, [ 
                 'label' => "Mot de passe",
                 'attr' => [
                     'placeholder' => "",
                 ],
             ])
-            ->add('nbrColor', IntegerType::class, [ // Champ pour le nombre de couleurs
+            ->add('nbrColor', IntegerType::class, [ 
                 'label' => "Nombre de couleurs",
                 'attr' => [
                     'placeholder' => "",
                 ],
             ])
-            ->add('nbrNb', IntegerType::class, [ // Champ pour le nombre en noir et blanc
+            ->add('nbrNb', IntegerType::class, [ 
                 'label' => "Nombre en noir et blanc",
                 'attr' => [
                     'placeholder' => "",

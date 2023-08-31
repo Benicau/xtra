@@ -1,23 +1,18 @@
 {% extends 'base.html.twig' %}{# menu anchor variable #}
-{% block title %}Système de caisse de Xtra Copy: index{% endblock %}
+{% block title %}Système de caisse de Xtra Copy: reste abonnement{% endblock %}
 {% set position = 0 %}
 {% block body %}
-<h1>Caisse de Xtra Copy : Acceuil</h1>
+<h1>Caisse de Xtra Copy : reste abonnement</h1>
 <div class="cadrePrincipal seule"> 
 <h2>Mise a jour abonné reussi</h2>
 <h3>Il reste <span>{{color}}</span> copies couleur et <span>{{nb}}</span> copies N/B</h3>
     <div class="menusuccess">
-   
         <ul>
             <li>
                 <a href="{{ path('app_caisse_index')}}">Suite</a>
             </li>
         </ul>
     </div>
-
-
 </div>
 {% include "partials/_menuCaisse.html.twig" %}
-
-
 {% endblock %}

@@ -21,6 +21,7 @@ class InvoicesRepository extends ServiceEntityRepository
         parent::__construct($registry, Invoices::class);
     }
 
+    // Custom function to find invoices within a specific date range and optional payment method filter
     public function findByDateRangeAndPayment($startDate, $endDate, $paymentMethod)
     {
     $queryBuilder = $this->createQueryBuilder('i')

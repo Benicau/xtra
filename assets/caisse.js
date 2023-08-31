@@ -2,8 +2,10 @@ const onglets = document.querySelectorAll('.onglets')
 const contenu = document.querySelectorAll('.contenu')
 let index = 0
 
+// Loop through each tab element
 onglets.forEach(onglet => {
     onglet.addEventListener('click', ()=>{
+        // Check if the clicked tab is already active
         if(onglet.classList.contains('active')){
             return;
         }
@@ -11,6 +13,7 @@ onglets.forEach(onglet => {
             onglet.classList.add('active')
         }
 
+        // Update index based on the clicked tab
         index = onglet.getAttribute('data-anim')
         for (i=0; i < onglets.length; i++ )
         {
@@ -20,6 +23,7 @@ onglets.forEach(onglet => {
            }
         }
 
+        // Update content visibility based on index
         for(j=0; j<contenu.length; j++){
             if(contenu[j].getAttribute('data-anim')== index) {
                 contenu[j].classList.add('activeContenu')
@@ -34,13 +38,13 @@ onglets.forEach(onglet => {
 })
 
 
+// Handling input elements for copy options and various services
 const inputs = document.querySelectorAll('.content input');
 const divers = document.querySelector('.autre .center input');
 const nbCopie = document.querySelector('#nb_noir_blanc')
 const colorCopie = document.querySelector('#nb_couleurs')
 
-
-
+// Ensure non-negative values
 nbCopie.addEventListener('input', function(){
     if(nbCopie.value<0)
     {
@@ -52,6 +56,7 @@ nbCopie.addEventListener('input', function(){
 
 })
 
+// Ensure non-negative values
 colorCopie.addEventListener('input', function(){
     if(colorCopie.value<0)
     {
@@ -61,6 +66,7 @@ colorCopie.addEventListener('input', function(){
 })
 
 
+// Ensure non-negative values
 divers.addEventListener('input', function(){
     if(divers.value<0)
     {
@@ -69,6 +75,7 @@ divers.addEventListener('input', function(){
     calcul ();
 })
 
+// Ensure non-negative values
 inputs.forEach((input) => {
     input.addEventListener('input', function() {
       
@@ -80,7 +87,7 @@ inputs.forEach((input) => {
     });
   });
 
-
+// Function for calculating the total cost and updating the display
   function calcul() {  
     var texte = ''
     const datas = document.querySelectorAll('.content input');
@@ -170,7 +177,7 @@ inputs.forEach((input) => {
     const totalInvoice = document.querySelector('#invoice_form_total')
     totalInvoice.value = total
 
-
+    // Enable/disable the "send" button based on the total cost
     const send = document.querySelector(".send")
     send.disabled = true
 
@@ -180,14 +187,7 @@ inputs.forEach((input) => {
     }
   }
 
-
-
+  // Initialize calculations when the page is loaded
   document.addEventListener('DOMContentLoaded', function() {
     calcul ();
 });
-
-
-
-
-
-

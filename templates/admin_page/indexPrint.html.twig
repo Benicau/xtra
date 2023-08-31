@@ -1,10 +1,15 @@
 {% extends 'base.html.twig' %}
 {% set position = 3 %} {# menu anchor variable #}
-{% block title %}Admin Xtra Copy: Index Imprimantes{% endblock %}
+{% block title %}Admin Xtra Copy: Imprimantes{% endblock %}
 {% block body %}
-<h1>Administation de Xtra Copy Tournai : Index Imprimantes</h1>
+<h1>Administation de Xtra Copy Tournai : Imprimantes</h1>
 <div class="cadrePrincipal">
     <a href="{{ path('addPrint')}}" class="ajout">Ajouter une imprimante</a>
+    {% for message in app.flashes('success') %}
+    <div class="alert alert-success mt-2">
+        {{ message }}
+    </div>
+    {% endfor %}
     <div class="list">
         <table>
         <thead>

@@ -42,16 +42,24 @@ class LoginXtraAuthenticator extends AbstractLoginFormAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
+        // Get the roles associated with the authenticated user
         $roles = $token->getRoleNames();
 
+        // Check if the user has the 'ROLE_WORKER' role
         if (in_array('ROLE_WORKER', $roles)) {
+            // Redirect workers to the 'app_caisse_info' route
             return new RedirectResponse($this->urlGenerator->generate('app_caisse_info'));
-        } else {
+        }
+        // Check if the user has the 'ROLE_ADMIN' role
+        elseif (in_array('ROLE_ADMIN', $roles)) {
+            // Redirect administrators to the 'app_admin_page' route
             return new RedirectResponse($this->urlGenerator->generate('app_admin_page'));
-        } 
+        }
+        // If the user doesn't have 'ROLE_WORKER' or 'ROLE_ADMIN' role, redirect to logout
+        else {
+            return new RedirectResponse($this->urlGenerator->generate('app_logout'));
+        }
 
-        // For example:
-        // return new RedirectResponse($this->urlGenerator->generate('some_route'));
         return new RedirectResponse($this->urlGenerator->generate('app_admin_page'));
     }
 

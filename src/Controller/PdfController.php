@@ -12,6 +12,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class PdfController extends AbstractController
 {
+
+    /**
+     * Controller action for generating a PDF of the latest invoice
+     *
+     * @param InvoicesRepository $invoiceRepository
+     * @return Response
+     */
     #[Route('/caisse/pdf', name: 'app_pdf')]
     public function index(InvoicesRepository $invoiceRepository): Response
     {
@@ -55,7 +62,13 @@ class PdfController extends AbstractController
             ]
         );
     }
-
+    
+  /**
+     * Controller action for generating a PDF of a specific invoice in the admin panel
+     *
+     * @param Invoices $invoice
+     * @return Response
+     */
     #[Route('/admin/compta/pdf/{id}', name: 'app_pdf_admin')]
     public function generateInvoicePdf(Invoices $invoice): Response
     {

@@ -1,12 +1,17 @@
 {% extends 'base.html.twig' %}
 {% set position = 1 %} {# menu anchor variable #}
-{% block title %}Admin Xtra Copy: Index Reliures {% endblock %}
+{% block title %}Admin Xtra Copy: Index Users {% endblock %}
 {% block body %}
-<h1>Administation de Xtra Copy Tournai : Index Reliures</h1>
+<h1>Administation de Xtra Copy Tournai : Index Users</h1>
 <div class="cadrePrincipal">
 
    <div class="list">
    <a href="{{ path('app_worker_add')}}" class='ajoute'>Ajouter</a>
+   {% for message in app.flashes('success') %}
+    <div class="alert alert-success mt-2">
+        {{ message }}
+    </div>
+    {% endfor %}
         <table>
         <thead>
             <tr>

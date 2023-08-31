@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\InvoicesRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: InvoicesRepository::class)]
 class Invoices
@@ -17,16 +18,20 @@ class Invoices
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $date = null;
 
-    #[ORM\Column(length: 255)] 
+    #[ORM\Column(length: 255)]
+    #[Assert\Length(max: 255)]
     private ?string $client = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotBlank]
     private ?string $texte = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Length(max: 255)]
     private ?string $paymentMethod = null;
 
     #[ORM\Column]
+    #[Assert\NotNull]
     private ?float $total = null;
 
     #[ORM\ManyToOne(targetEntity: User::class)]
@@ -48,7 +53,7 @@ class Invoices
         return $this->date;
     }
 
-    public function setDate(\DateTimeInterface $date): static
+    public function setDate(\DateTimeInterface $date): self
     {
         $this->date = $date;
         return $this;
@@ -59,7 +64,7 @@ class Invoices
         return $this->client;
     }
 
-    public function setClient(string $client): static
+    public function setClient(string $client): self
     {
         $this->client = $client;
         return $this;
@@ -70,7 +75,7 @@ class Invoices
         return $this->texte;
     }
 
-    public function setTexte(string $texte): static
+    public function setTexte(string $texte): self
     {
         $this->texte = $texte;
         return $this;
@@ -81,7 +86,7 @@ class Invoices
         return $this->paymentMethod;
     }
 
-    public function setPaymentMethod(string $paymentMethod): static
+    public function setPaymentMethod(string $paymentMethod): self
     {
         $this->paymentMethod = $paymentMethod;
         return $this;
@@ -92,7 +97,7 @@ class Invoices
         return $this->total;
     }
 
-    public function setTotal(float $total): static
+    public function setTotal(float $total): self
     {
         $this->total = $total;
         return $this;
@@ -103,7 +108,7 @@ class Invoices
         return $this->user;
     }
 
-    public function setUser(?User $user): static
+    public function setUser(?User $user): self
     {
         $this->user = $user;
         return $this;

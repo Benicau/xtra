@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\BindingsRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: BindingsRepository::class)]
 class Bindings
@@ -14,9 +15,11 @@ class Bindings
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Length(min: 3, max: 255)]
     private ?string $Name = null;
 
     #[ORM\Column]
+    #[Assert\NotNull]
     private ?float $Price = null;
 
     #[ORM\ManyToOne(inversedBy: 'bindings')]
@@ -32,10 +35,9 @@ class Bindings
         return $this->Name;
     }
 
-    public function setName(string $Name): static
+    public function setName(string $Name): self
     {
         $this->Name = $Name;
-
         return $this;
     }
 
@@ -44,10 +46,9 @@ class Bindings
         return $this->Price;
     }
 
-    public function setPrice(float $Price): static
+    public function setPrice(float $Price): self
     {
         $this->Price = $Price;
-
         return $this;
     }
 
@@ -56,10 +57,9 @@ class Bindings
         return $this->CatBindings;
     }
 
-    public function setCatBindings(?CatBindings $CatBindings): static
+    public function setCatBindings(?CatBindings $CatBindings): self
     {
         $this->CatBindings = $CatBindings;
-
         return $this;
     }
 }

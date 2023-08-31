@@ -1,12 +1,17 @@
 {% extends 'base.html.twig' %}
 {% set position = 3 %} {# menu anchor variable #}
-{% block title %}Admin Xtra Copy: Index Prix Photos {% endblock %}
+{% block title %}Admin Xtra Copy: Prix Photos {% endblock %}
 {% block body %}
-<h1>Administation de Xtra Copy Tournai : Index Prix Photos</h1>
+<h1>Administation de Xtra Copy Tournai : Prix Photos</h1>
 <div class="cadrePrincipal">
 
    <div class="list">
    <a href="{{ path('addPhotos')}}" class='ajoute'>Ajouter</a>
+   {% for message in app.flashes('success') %}
+    <div class="alert alert-success mt-2">
+        {{ message }}
+    </div>
+    {% endfor %}
         <table>
         <thead>
             <tr>

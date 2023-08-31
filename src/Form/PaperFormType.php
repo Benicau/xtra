@@ -31,7 +31,7 @@ class PaperFormType extends AbstractType
             ])
             ->add('catTypePaper', EntityType::class, [
                 'class' =>CatTypePaper::class,
-                'choice_label' => 'catName', // Remplacez 'propertyName' par la propriété appropriée de CatTypePaper à afficher
+                'choice_label' => 'catName', 
 
             ])
         ;

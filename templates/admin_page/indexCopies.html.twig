@@ -1,14 +1,16 @@
 {% extends 'base.html.twig' %}
 {% set position = 3 %} {# menu anchor variable #}
-{% block title %}Admin Xtra Copy: Index Imprimantes{% endblock %}
+{% block title %}Admin Xtra Copy: Prix des photocopies{% endblock %}
 {% block body %}
-<h1>Administation de Xtra Copy Tournai : Index Imprimantes</h1>
+<h1>Administation de Xtra Copy Tournai : Prix des photocopies</h1>
 <div class="cadrePrincipal">
     <h2>Prix des photocopies</h2>
-
-
+    {% for message in app.flashes('success') %}
+    <div class="alert alert-success mt-2">
+        {{ message }}
+    </div>
+    {% endfor %}
     <div class="list">
-
         <div class="double">
             <div class="tableau">
             <h3>Copies couleurs</h3>

@@ -31,13 +31,9 @@ class AbonnementFormType extends AbstractType
          
             ->add('catAbonnement', EntityType::class, [
                 'class' =>CatAbonnement::class,
-                'choice_label' => 'catName', // Remplacez 'propertyName' par la propriété appropriée de CatTypePaper à afficher
+                'choice_label' => 'catName', 
 
             ])
-
-
-
-
         ;
     }
 

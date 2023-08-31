@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\ImprimantesRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ImprimantesRepository::class)]
 class Imprimantes
@@ -15,12 +16,14 @@ class Imprimantes
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Length(min: 3, max: 255)]
     private ?string $Name = null;
 
     #[ORM\Column]
     private ?int $numero = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Ip]
     private ?string $Ip = null;
 
     #[ORM\Column(length: 255, nullable: true)]

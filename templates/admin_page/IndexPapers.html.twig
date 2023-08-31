@@ -7,6 +7,11 @@
 
    <div class="list">
    <a href="{{ path('addpaper')}}" class='ajoute'>Ajouter</a>
+   {% for message in app.flashes('success') %}
+    <div class="alert alert-success mt-2">
+        {{ message }}
+    </div>
+    {% endfor %}
         <table>
         <thead>
             <tr>

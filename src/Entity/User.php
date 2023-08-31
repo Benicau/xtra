@@ -6,9 +6,13 @@ use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
+#[ORM\HasLifecycleCallbacks]
+#[UniqueEntity(fields:['email'], message: "Un autre utilisateur possède déjà cette adresse e-mail, merci de la modifier")]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -17,6 +21,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
+    #[Assert\Email]
     private ?string $email = null;
 
     #[ORM\Column]
@@ -29,15 +34,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
     private ?string $surname = null;
 
     #[ORM\Column]
+    #[Assert\NotNull]
     private ?int $nbrColor = null;
 
     #[ORM\Column]
+    #[Assert\NotNull]
     private ?int $nbrNb = null;
 
     public function getId(): ?int
@@ -50,7 +59,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->email;
     }
 
-    public function setEmail(string $email): static
+    public function setEmail(string $email): self
     {
         $this->email = $email;
 
@@ -79,7 +88,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return array_unique($roles);
     }
 
-    public function setRoles(array $roles): static
+    public function setRoles(array $roles): self
     {
         $this->roles = $roles;
 
@@ -94,7 +103,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->password;
     }
 
-    public function setPassword(string $password): static
+    public function setPassword(string $password): self
     {
         $this->password = $password;
 
@@ -115,7 +124,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->name;
     }
 
-    public function setName(string $name): static
+    public function setName(string $name): self
     {
         $this->name = $name;
 
@@ -127,7 +136,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->surname;
     }
 
-    public function setSurname(string $surname): static
+    public function setSurname(string $surname): self
     {
         $this->surname = $surname;
 
@@ -139,7 +148,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->nbrColor;
     }
 
-    public function setNbrColor(int $nbrColor): static
+    public function setNbrColor(int $nbrColor): self
     {
         $this->nbrColor = $nbrColor;
 
@@ -151,7 +160,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->nbrNb;
     }
 
-    public function setNbrNb(int $nbrNb): static
+    public function setNbrNb(int $nbrNb): self
     {
         $this->nbrNb = $nbrNb;
 

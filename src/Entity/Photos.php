@@ -2,10 +2,9 @@
 
 namespace App\Entity;
 
-
-use Doctrine\ORM\Mapping as ORM;
 use App\Repository\PhotosRepository;
-
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PhotosRepository::class)]
 class Photos
@@ -16,9 +15,12 @@ class Photos
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
+    #[Assert\Length(max: 255)]
     private ?string $name = null;
 
     #[ORM\Column]
+    #[Assert\NotNull]
     private ?float $price = null;
 
     #[ORM\ManyToOne(inversedBy: 'Photos')]
@@ -34,10 +36,9 @@ class Photos
         return $this->name;
     }
 
-    public function setName(string $name): static
+    public function setName(string $name): self
     {
         $this->name = $name;
-
         return $this;
     }
 
@@ -46,23 +47,20 @@ class Photos
         return $this->price;
     }
 
-    public function setPrice(float $price): static
+    public function setPrice(float $price): self
     {
         $this->price = $price;
-
         return $this;
     }
-
 
     public function getCatPhotos(): ?CatPhotos
     {
         return $this->CatPhotos;
     }
 
-    public function setCatPhotos(?CatPhotos $CatPhotos): static
+    public function setCatPhotos(?CatPhotos $CatPhotos): self
     {
         $this->CatPhotos = $CatPhotos;
-
         return $this;
     }
 }
