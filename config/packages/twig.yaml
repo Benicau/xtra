@@ -1,5 +1,6 @@
 twig:
     default_path: '%kernel.project_dir%/templates'
+    exception_controller: 'Symfony\Bundle\TwigBundle\Controller\ExceptionController::showException'
 
 when@test:
     twig:
