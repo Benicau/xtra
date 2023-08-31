@@ -1,0 +1,36 @@
+{
+  "entrypoints": {
+    "app": {
+      "js": [
+        "/build/runtime.efa5318b.js",
+        "/build/app.aa1bf742.js"
+      ],
+      "css": [
+        "/build/app.a6934b21.css"
+      ]
+    },
+    "caisse": {
+      "js": [
+        "/build/runtime.efa5318b.js",
+        "/build/109.1ecb010f.js",
+        "/build/caisse.e4b2c173.js"
+      ]
+    },
+    "appSite": {
+      "js": [
+        "/build/runtime.efa5318b.js",
+        "/build/appSite.d47feb3a.js"
+      ],
+      "css": [
+        "/build/appSite.31db7790.css"
+      ]
+    },
+    "jsSite": {
+      "js": [
+        "/build/runtime.efa5318b.js",
+        "/build/109.1ecb010f.js",
+        "/build/jsSite.4b8baa1e.js"
+      ]
+    }
+  }
+}
