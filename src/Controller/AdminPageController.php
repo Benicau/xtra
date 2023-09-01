@@ -50,7 +50,7 @@ class AdminPageController extends AbstractController
     }
 
 
-    #[Route('/admin', name: 'test')]
+    #[Route('/admin/yo', name: 'test')]
     public function test(): Response
     {
         $user = $this->getUser();
