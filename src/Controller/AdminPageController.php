@@ -49,17 +49,6 @@ class AdminPageController extends AbstractController
         ]);
     }
 
-
-    #[Route('/admin/parametres/papers', name: 'test')]
-    public function test(): Response
-    {
-        $user = $this->getUser();
-        return $this->render('admin_page/indexPapers.html.twig', [
-            'user' => $user,
-        ]);
-    }
-
-
     /**
      * Controller action for rendering the settings page in the admin section.
      *
@@ -507,7 +496,7 @@ class AdminPageController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    #[Route('/admin/parametres/papers2', name: 'indexPapers')]
+    #[Route('/admin/parametres/papers', name: 'indexPapers')]
     public function paperIndex(TypePaperRepository $paper, PaginatorInterface $paginator, Request $request): Response
     {
         $user = $this->getUser();
