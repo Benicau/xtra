@@ -507,9 +507,9 @@ class AdminPageController extends AbstractController
         8 
     );
         
-        return $this->render('admin_page/indexPapers.html.twig', [
+        return $this->render('admin_page/indexPapier.html.twig', [
             'user' => $user,
-          
+            'papers'=>$pagination
         ]);
     }
 
