@@ -496,12 +496,12 @@ class AdminPageController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    #[Route('/admin/parametres/papers', name: 'indexPapers')]
+    #[Route('/admin/index/papers', name: 'indexPapers')]
     public function paperIndex(TypePaperRepository $paper, PaginatorInterface $paginator, Request $request): Response
     {
         $user = $this->getUser();
-    $queryBuilder = $paper->createQueryBuilder('p');
-    $pagination = $paginator->paginate(
+        $queryBuilder = $paper->createQueryBuilder('p');
+        $pagination = $paginator->paginate(
         $queryBuilder->getQuery(),
         $request->query->getInt('page', 1),
         8 
