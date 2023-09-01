@@ -517,16 +517,8 @@ class AdminPageController extends AbstractController
     public function paperIndex2(TypePaperRepository $paper, PaginatorInterface $paginator, Request $request): Response
     {
         $user = $this->getUser();
-        $queryBuilder = $paper->createQueryBuilder('p');
-        $pagination = $paginator->paginate(
-        $queryBuilder->getQuery(),
-        $request->query->getInt('page', 1),
-        8 
-    );
-        
-        return $this->render('admin_page/indexPapers.html.twig', [
+        return $this->render('admin_page/index.html.twig', [
             'user' => $user,
-            'papers'=>$pagination
         ]);
     }
 
