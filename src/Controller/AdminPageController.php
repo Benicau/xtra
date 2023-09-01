@@ -50,7 +50,7 @@ class AdminPageController extends AbstractController
     }
 
 
-    #[Route('/admin/yo', name: 'test')]
+    #[Route('/admin/parametres/papers', name: 'test')]
     public function test(): Response
     {
         $user = $this->getUser();
@@ -507,7 +507,7 @@ class AdminPageController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    #[Route('/admin/parametres/papers', name: 'indexPapers')]
+    #[Route('/admin/parametres/papers2', name: 'indexPapers')]
     public function paperIndex(TypePaperRepository $paper, PaginatorInterface $paginator, Request $request): Response
     {
         $user = $this->getUser();
