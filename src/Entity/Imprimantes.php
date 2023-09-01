@@ -50,6 +50,9 @@ class Imprimantes
     #[ORM\Column(type: Types::BIGINT, nullable: true)]
     private ?string $CompteurGénéralBlackWhite = null;
 
+    #[ORM\Column(type: Types::BOOLEAN)]
+    private bool $inUse = false;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -183,6 +186,18 @@ class Imprimantes
     public function setCompteurGénéralBlackWhite(?string $CompteurGénéralBlackWhite): self
     {
         $this->CompteurGénéralBlackWhite = $CompteurGénéralBlackWhite;
+
+        return $this;
+    }
+
+    public function getInUse(): bool
+    {
+        return $this->inUse;
+    }
+
+    public function setInUse(bool $inUse): self
+    {
+        $this->inUse = $inUse;
 
         return $this;
     }

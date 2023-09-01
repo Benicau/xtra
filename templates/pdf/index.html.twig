@@ -46,7 +46,7 @@
         {
             text-align: right;
             margin-top:35px;
-            min-height: 600px;
+            min-height: 420px;
         }
         .facture p{
             font-size:18px;
@@ -83,6 +83,36 @@
         .tva span{
             color: red;
         }
+        .footer{
+           margin-top: 25px;
+           
+        }
+        .footer ul{
+            list-style-type: none;
+        }
+        .footer ul li{
+           
+            float:left;
+            width:33%;
+            text-align:center;
+            font-size:13px;
+            color:green;
+    
+        }
+        .info {
+            border:1px solid black;
+            margin-top:50px;
+        }
+        .info h2 {
+            text-align: center;
+            padding: 10px;
+            margin:0;
+            color:#1EABDC;
+        }
+        .info p{
+            padding-left: 20px;
+            padding-bottom:10px;
+        }
     </style>
 </head>
 
@@ -95,22 +125,35 @@
             <p>Rue de l'Yser 11</p>
             <p> 7500 Tournai</p>
             <p>Belgique</p>
+            <p>BE0700366625</p>
         </div>
         <div class="clientInfo">
             <p>{{data.name}}</p>
         </div>
     </div>
 
-    <h1>Facture</h1>
+    <h1>Facture {{data.id}}</h1>
     <p>Date: {{data.date}}</p>
     <div class="facture">
         {{data.texte|raw}}
     </div>
-    <p class="tva">La tva est de <span>{{ (data.total * 0.21)|number_format(2) }}€</span></p>
+    <p class="tva">La tva (21%) est de <span>{{ (data.total * 0.21)|number_format(2) }}€</span></p>
     <div class="total">
     
     <p>Le total tva comprise est de <span>{{data.total|number_format(2)}}€</span></p>
     
+    </div>
+    <div class="info">
+    <h2>Conditions et modalités de paiement</h2>
+    <p>Paiement dans les 15 jours dès réception de la facture</p>
+    <p>Numéro de compte bancaire ==> BE41 7320 4802 0610</p>
+    </div>
+    <div class="footer">
+    <ul>
+    <li>xtracopytournai@gmail.com</li>
+    <li>www.xtra-copy.be</li>
+    <li>0470/928.009</li>
+    </ul>
     </div>
 </body>
 

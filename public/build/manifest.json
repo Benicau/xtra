@@ -1,14 +1,16 @@
 {
-  "build/app.css": "/build/app.a6934b21.css",
-  "build/app.js": "/build/app.aa1bf742.js",
-  "build/caisse.js": "/build/caisse.e4b2c173.js",
-  "build/appSite.css": "/build/appSite.31db7790.css",
-  "build/appSite.js": "/build/appSite.d47feb3a.js",
-  "build/jsSite.js": "/build/jsSite.4b8baa1e.js",
-  "build/runtime.js": "/build/runtime.efa5318b.js",
-  "build/109.1ecb010f.js": "/build/109.1ecb010f.js",
-  "build/fonts/Roboto-Regular.ttf": "/build/fonts/Roboto-Regular.fc2b5060.ttf",
-  "build/fonts/Barlow-Regular.ttf": "/build/fonts/Barlow-Regular.e7eb634d.ttf",
-  "build/fonts/ScriptoramaMarkdownJFRegular.ttf": "/build/fonts/ScriptoramaMarkdownJFRegular.0283734c.ttf",
-  "build/images/pattern.png": "/build/images/pattern.f129124e.png"
+  "build/app.css": "http://localhost:8080/build/app.css",
+  "build/app.js": "http://localhost:8080/build/app.js",
+  "build/caisse.js": "http://localhost:8080/build/caisse.js",
+  "build/appSite.css": "http://localhost:8080/build/appSite.css",
+  "build/appSite.js": "http://localhost:8080/build/appSite.js",
+  "build/jsSite.js": "http://localhost:8080/build/jsSite.js",
+  "build/runtime.js": "http://localhost:8080/build/runtime.js",
+  "build/vendors-node_modules_webpack-dev-server_client_index_js_protocol_ws_3A_hostname_localhost_por-3885b1.js": "http://localhost:8080/build/vendors-node_modules_webpack-dev-server_client_index_js_protocol_ws_3A_hostname_localhost_por-3885b1.js",
+  "build/vendors-node_modules_core-js_internals_export_js.js": "http://localhost:8080/build/vendors-node_modules_core-js_internals_export_js.js",
+  "build/vendors-node_modules_core-js_modules_es_array_for-each_js-node_modules_core-js_modules_es_num-af07db.js": "http://localhost:8080/build/vendors-node_modules_core-js_modules_es_array_for-each_js-node_modules_core-js_modules_es_num-af07db.js",
+  "build/fonts/Roboto-Regular.ttf": "http://localhost:8080/build/fonts/Roboto-Regular.fc2b5060.ttf",
+  "build/fonts/Barlow-Regular.ttf": "http://localhost:8080/build/fonts/Barlow-Regular.e7eb634d.ttf",
+  "build/fonts/ScriptoramaMarkdownJFRegular.ttf": "http://localhost:8080/build/fonts/ScriptoramaMarkdownJFRegular.0283734c.ttf",
+  "build/images/pattern.png": "http://localhost:8080/build/images/pattern.f129124e.png"
 }
