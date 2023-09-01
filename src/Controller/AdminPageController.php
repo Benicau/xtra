@@ -489,6 +489,48 @@ class AdminPageController extends AbstractController
 
 
     /**
+     * Controller action for displaying a paginated list of papers prices in the admin panel.
+     *
+     * @param TypePaperRepository $paper
+     * @param PaginatorInterface $paginator
+     * @param Request $request
+     * @return Response
+     */
+    #[Route('/admin/parametres/papers', name: 'indexPapers')]
+    public function paperIndex(TypePaperRepository $paper, PaginatorInterface $paginator, Request $request): Response
+    {
+        $user = $this->getUser();
+        $queryBuilder = $paper->createQueryBuilder('p');
+        $pagination = $paginator->paginate(
+        $queryBuilder->getQuery(),
+        $request->query->getInt('page', 1),
+        8 
+    );
+        
+        return $this->render('admin_page/indexPapers.html.twig', [
+            'user' => $user,
+            'papers'=>$pagination
+        ]);
+    }
+
+    #[Route('/admin/parametres/papers2', name: 'indexPapers2')]
+    public function paperIndex2(TypePaperRepository $paper, PaginatorInterface $paginator, Request $request): Response
+    {
+        $user = $this->getUser();
+        $queryBuilder = $paper->createQueryBuilder('p');
+        $pagination = $paginator->paginate(
+        $queryBuilder->getQuery(),
+        $request->query->getInt('page', 1),
+        8 
+    );
+        
+        return $this->render('admin_page/indexPapers.html.twig', [
+            'user' => $user,
+            'papers'=>$pagination
+        ]);
+    }
+
+    /**
      * Controller action for adding a new paper type price in the admin panel.
      *
      * @param EntityManagerInterface $manager
