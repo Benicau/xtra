@@ -2,20 +2,6 @@
 {% set position = 3 %} {# menu anchor variable #}
 {% block title %}Admin Xtra Copy: Index Papiers{% endblock %}
 {% block body %}
-<h1>Administation de Xtra Copy Tournai : Index Papiers</h1>
-<div class="cadrePrincipal">
 
-   <div class="list">
-   <a href="{{ path('addpaper')}}" class='ajoute'>Ajouter</a>
-   {% for message in app.flashes('success') %}
-    <div class="alert alert-success mt-2">
-        {{ message }}
-    </div>
-    {% endfor %}
-        
-    </div>
-    <a href="{{ path('indexParametre')}}" class="retour">Retour</a> 
-
-</div>
 {% include "partials/_menuAdmin.html.twig" %}
 {% endblock %}
