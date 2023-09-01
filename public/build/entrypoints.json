@@ -2,39 +2,34 @@
   "entrypoints": {
     "app": {
       "js": [
-        "http://localhost:8080/build/runtime.js",
-        "http://localhost:8080/build/vendors-node_modules_webpack-dev-server_client_index_js_protocol_ws_3A_hostname_localhost_por-3885b1.js",
-        "http://localhost:8080/build/app.js"
+        "/build/runtime.efa5318b.js",
+        "/build/app.aa1bf742.js"
       ],
       "css": [
-        "http://localhost:8080/build/app.css"
+        "/build/app.a6934b21.css"
       ]
     },
     "caisse": {
       "js": [
-        "http://localhost:8080/build/runtime.js",
-        "http://localhost:8080/build/vendors-node_modules_webpack-dev-server_client_index_js_protocol_ws_3A_hostname_localhost_por-3885b1.js",
-        "http://localhost:8080/build/vendors-node_modules_core-js_internals_export_js.js",
-        "http://localhost:8080/build/vendors-node_modules_core-js_modules_es_array_for-each_js-node_modules_core-js_modules_es_num-af07db.js",
-        "http://localhost:8080/build/caisse.js"
+        "/build/runtime.efa5318b.js",
+        "/build/109.1ecb010f.js",
+        "/build/caisse.e4b2c173.js"
       ]
     },
     "appSite": {
       "js": [
-        "http://localhost:8080/build/runtime.js",
-        "http://localhost:8080/build/vendors-node_modules_webpack-dev-server_client_index_js_protocol_ws_3A_hostname_localhost_por-3885b1.js",
-        "http://localhost:8080/build/appSite.js"
+        "/build/runtime.efa5318b.js",
+        "/build/appSite.d47feb3a.js"
       ],
       "css": [
-        "http://localhost:8080/build/appSite.css"
+        "/build/appSite.31db7790.css"
       ]
     },
     "jsSite": {
       "js": [
-        "http://localhost:8080/build/runtime.js",
-        "http://localhost:8080/build/vendors-node_modules_webpack-dev-server_client_index_js_protocol_ws_3A_hostname_localhost_por-3885b1.js",
-        "http://localhost:8080/build/vendors-node_modules_core-js_internals_export_js.js",
-        "http://localhost:8080/build/jsSite.js"
+        "/build/runtime.efa5318b.js",
+        "/build/109.1ecb010f.js",
+        "/build/jsSite.4b8baa1e.js"
       ]
     }
   }
