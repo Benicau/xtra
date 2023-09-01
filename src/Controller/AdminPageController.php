@@ -500,9 +500,9 @@ class AdminPageController extends AbstractController
     public function paperIndex(TypePaperRepository $paper, PaginatorInterface $paginator, Request $request): Response
     {
         $user = $this->getUser();
-        $queryBuilder = $paper->createQueryBuilder('p');
+        $queryBuilder2 = $paper->createQueryBuilder('p');
         $pagination = $paginator->paginate(
-        $queryBuilder->getQuery(),
+        $queryBuilder2->getQuery(),
         $request->query->getInt('page', 1),
         8 
     );
