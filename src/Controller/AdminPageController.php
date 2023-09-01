@@ -54,7 +54,7 @@ class AdminPageController extends AbstractController
     public function test(): Response
     {
         $user = $this->getUser();
-        return $this->render('admin_page/index.html.twig', [
+        return $this->render('admin_page/indexPapers.html.twig', [
             'user' => $user,
         ]);
     }
