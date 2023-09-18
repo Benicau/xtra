@@ -137,7 +137,9 @@
     <div class="facture">
         {{data.texte|raw}}
     </div>
-    <p class="tva">La tva (21%) est de <span>{{ (data.total * 0.21)|number_format(2) }}€</span></p>
+    <p class="tva">La tva (21%) est de <span>{{ data.total - (data.total / 1.21)|number_format(2) }}€</span></p>
+
+
     <div class="total">
     
     <p>Le total tva comprise est de <span>{{data.total|number_format(2)}}€</span></p>

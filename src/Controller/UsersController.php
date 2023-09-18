@@ -25,18 +25,13 @@ class UsersController extends AbstractController
      * @return Response
      */
     #[Route('/admin/users', name: 'app_users')]
-    public function index(UserRepository $utilisateurs, PaginatorInterface $paginator, Request $request): Response
+    public function index(UserRepository $utilisateurs): Response
     {
         $user = $this->getUser();
-        $queryBuilder = $utilisateurs->createQueryBuilder('p');
-        $pagination = $paginator->paginate(
-        $queryBuilder->getQuery(),
-        $request->query->getInt('page', 1),
-        8 
-        );
+        $allUsers = $utilisateurs->findAll();
         return $this->render('users/index.html.twig', [
             'user' => $user,
-            'paginations'=>$pagination
+            'paginations'=>$allUsers
         ]);
     }
 

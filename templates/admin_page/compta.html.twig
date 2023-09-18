@@ -54,7 +54,7 @@
                         {{ invoice.client }}
                         {% endif %}
                     </td>
-                    <td>{{ user.name }} {{ user.surname }}</td>
+                    <td>{{ invoice.user.name }} {{ invoice.user.surname }}</td>
                     <td>{{ invoice.total }} €</td>
                     <td>{{ invoice.paymentMethod }}</td>
                     <td class="link link2">
