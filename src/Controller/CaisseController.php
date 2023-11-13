@@ -20,6 +20,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\CatBindingsRepository;
 use App\Repository\PricecopynbRepository;
 use App\Repository\CatTypePaperRepository;
+use App\Repository\DiversRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use App\Repository\PricecopycolorRepository;
 use Symfony\Component\HttpFoundation\Request;
@@ -291,7 +292,7 @@ class CaisseController extends AbstractController
      * @return Response
      */
     #[Route('/caisse/noCopie', name: 'app_caisse_noCopie')]
-    public function noCopie( EntityManagerInterface $manager ,Request $request, CatBindingsRepository $catTypeBindings, BindingsRepository $typebindings, CatTypePaperRepository $catTypePaper, TypePaperRepository $typePaper, CatPhotosRepository $catTypePhotos, PhotosRepository $typePhotos, PricecopycolorRepository $typeColors, PricecopynbRepository $typeNbs): Response
+    public function noCopie( EntityManagerInterface $manager ,Request $request, CatBindingsRepository $catTypeBindings, BindingsRepository $typebindings, CatTypePaperRepository $catTypePaper, TypePaperRepository $typePaper, CatPhotosRepository $catTypePhotos, PhotosRepository $typePhotos, PricecopycolorRepository $typeColors, PricecopynbRepository $typeNbs, DiversRepository $typeDivers): Response
     {
         $user = $this->getUser();
 
@@ -303,6 +304,7 @@ class CaisseController extends AbstractController
         $catPhotos = $catTypePhotos ->findAll();
         $photos = $typePhotos ->findAll();
         $colors = $typeColors ->findAll();
+        $divers = $typeDivers->findAll();
         $nbs = $typeNbs -> findAll();
 
         // Create an instance of Invoices and set default values
@@ -330,7 +332,7 @@ class CaisseController extends AbstractController
         }
 
 
-        return $this->render('caisse/noCopie.html.twig', ['form'=>$form->createView(),'user' => $user, 'catReliures' =>$catBindings, 'reliures'=>$bindings, 'catPapers' =>$catPapers, 'papers' => $papers, 'catPhotos'=>$catPhotos, 'photos'=>$photos, 'colors'=>$colors, 'nbs'=>$nbs]);      
+        return $this->render('caisse/noCopie.html.twig', ['form'=>$form->createView(),'user' => $user, 'divers' => $divers,'catReliures' =>$catBindings, 'reliures'=>$bindings, 'catPapers' =>$catPapers, 'papers' => $papers, 'catPhotos'=>$catPhotos, 'photos'=>$photos, 'colors'=>$colors, 'nbs'=>$nbs]);      
     }
 
     /**
@@ -360,7 +362,8 @@ class CaisseController extends AbstractController
         CatPhotosRepository $catTypePhotos,
         PhotosRepository $typePhotos,
         PricecopycolorRepository $typeColors,
-        PricecopynbRepository $typeNbs
+        PricecopynbRepository $typeNbs,
+        DiversRepository $typeDivers
     ): Response {
         
         $user = $this->getUser();
@@ -376,6 +379,7 @@ class CaisseController extends AbstractController
         $catPhotos = $catTypePhotos->findAll();
         $photos = $typePhotos->findAll();
         $colors = $typeColors->findAll();
+        $divers = $typeDivers->findAll();
         $nbs = $typeNbs->findAll();
 
         // Create an instance of Invoices and set default values
@@ -435,6 +439,7 @@ class CaisseController extends AbstractController
             'catPhotos' => $catPhotos,
             'photos' => $photos,
             'colors' => $colors,
+            'divers' => $divers,
             'nbs' => $nbs,
         ]);
     }
@@ -464,7 +469,8 @@ class CaisseController extends AbstractController
         CatPhotosRepository $catTypePhotos,
         PhotosRepository $typePhotos,
         PricecopycolorRepository $typeColors,
-        PricecopynbRepository $typeNbs
+        PricecopynbRepository $typeNbs,
+        DiversRepository $typeDivers
     ): Response {
         // Retrieve the authenticated user
         $user = $this->getUser();
@@ -484,6 +490,7 @@ class CaisseController extends AbstractController
         $catPapers = $catTypePaper->findAll();
         $papers = $typePaper->findAll();
         $catPhotos = $catTypePhotos->findAll();
+        $divers = $typeDivers->findAll();
         $photos = $typePhotos->findAll();
         $colors = $typeColors->findAll();
         $nbs = $typeNbs->findAll();
@@ -544,7 +551,8 @@ class CaisseController extends AbstractController
             'colors' => $colors,
             'nbs' => $nbs,
             'resteCouleur' => $resteCouleur,
-            'resteNb' => $resteNb
+            'resteNb' => $resteNb,
+            'divers' => $divers
         ]);
     }
 

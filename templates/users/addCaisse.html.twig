@@ -21,6 +21,7 @@
         {{ form_widget(form.email) }}
         {{ form_errors(form.email) }}
     </div>
+    {% if is_granted('ROLE_ADMIN') %}
     <div class="form-groupe">
         <div class="choix">
             <div class="color">
@@ -33,6 +34,20 @@
             </div>
         </div>
     </div>
+    {% else %}
+    <div class="form-groupe" style="display: none;">
+        <div class="choix">
+            <div class="color">
+                {{ form_label(form.nbrColor) }}
+                {{ form_widget(form.nbrColor, {'attr': {'type': 'integer', 'value': 0}}) }}
+            </div>
+            <div class="nb">
+                {{ form_label(form.nbrNb) }}
+                {{ form_widget(form.nbrNb, {'attr': {'type': 'integer', 'value': 0}}) }}
+            </div>
+        </div>
+    </div>
+    {% endif %}
     <div class="button">
         <button type="submit" class="send">Enregister</button>
     </div>

@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use DateTime;
+use App\Entity\Divers;
 use App\Entity\Photos;
 use App\Entity\Bindings;
 use App\Entity\Invoices;
@@ -17,6 +19,7 @@ use App\Form\AbonnementFormType;
 use App\Form\ImprimanteFormType;
 use App\Form\PriceCopyNbFormType;
 use App\Form\PriceCopyColorFormType;
+use App\Repository\DiversRepository;
 use App\Repository\PhotosRepository;
 use App\Repository\BindingsRepository;
 use App\Repository\InvoicesRepository;
@@ -31,6 +34,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Form\DiversFormType;
 
 class AdminPageController extends AbstractController
 {
@@ -41,13 +45,25 @@ class AdminPageController extends AbstractController
      * @return Response
      */
     #[Route('/admin', name: 'app_admin_page')]
-    public function index(): Response
+    public function index(InvoicesRepository $invoicesRepository): Response
     {
         $user = $this->getUser();
+        $currentYear = (new \DateTime())->format('Y');
+        $currentMonth = (new \DateTime())->format('m');
+        $currentDay = (new \DateTime())->format('d');
+        $totalForCurrentYear = $invoicesRepository->findTotalForCurrentYear($currentYear);
+        $totalForCurrentMonth = $invoicesRepository->findTotalForCurrentMonth($currentYear, $currentMonth);
+        $totalForCurrentDay = $invoicesRepository->findTotalForCurrentDay();
+
         return $this->render('admin_page/index.html.twig', [
             'user' => $user,
-        ]);
+            'totalForCurrentYear' => $totalForCurrentYear,
+            'totalForCurrentMonth' => $totalForCurrentMonth,
+            'totalForCurrentDay' => $totalForCurrentDay
+    ]);
     }
+
+
 
     /**
      * Controller action for rendering the settings page in the admin section.
@@ -798,6 +814,92 @@ class AdminPageController extends AbstractController
         ]);
 
     }
+
+
+
+
+
+
+    #[Route('/admin/parametres/divers', name: 'indexDivers')]
+    public function diversIndex(DiversRepository $divers, PaginatorInterface $paginator, Request $request): Response
+    {
+        $user = $this->getUser();
+        $queryBuilder = $divers->createQueryBuilder('p');
+        $pagination = $paginator->paginate(
+        $queryBuilder->getQuery(),
+        $request->query->getInt('page', 1),
+        8 // Number of results per page
+        );
+            
+         return $this->render('admin_page/indexDivers.html.twig', [
+            'user' => $user,
+            'paginations'=>$pagination
+         ]);
+    }
+
+
+    #[Route('/admin/parametres/divers/add', name: 'addDivers')]
+    public function diversAdd(EntityManagerInterface $manager, Request $request): Response
+    {
+        $data = new Divers;
+        $form = $this->createForm(DiversFormType::class, $data);
+        $form->handleRequest($request);
+        $user = $this->getUser();
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $manager->persist($data);
+            $manager->flush();
+
+            $this->addFlash(
+                'success',
+                "Votre nouveau prix diver a bien été créé"
+            );
+            return $this->redirectToRoute('indexDivers');
+        }
+        return $this->render('admin_page/formDivers.html.twig', ['form'=>$form->createView(), 'user'=>$user]);
+    }
+
+
+    #[Route('/admin/parametres/divers/{id}/edit', name: 'editDivers')]
+    public function diversEdit(EntityManagerInterface $manager, Divers $data, Request $request):Response
+    {
+        $form = $this->createForm(DiversFormType::class, $data);
+        $form->handleRequest($request); 
+        $user = $this->getUser(); 
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $manager->persist($data);
+            $manager->flush();
+            $this->addFlash(
+                'success',
+                "Votre prix diver a bien été modifié"
+            );
+            return $this->redirectToRoute('indexDivers');
+        }
+        return $this->render('admin_page/formDivers.html.twig', [
+            "data" => $data,
+            'form'=>$form->createView(),
+            'user'=>$user
+            
+        ]);
+
+    }
+
+
+    #[Route('/admin/parametres/divers/{id}/delete', name: 'deleteDivers')]
+    public function diversDelete(EntityManagerInterface $manager, Divers $data ): Response
+    {
+        $this->addFlash('success', "Prix diver supprimé");     
+        $manager->remove($data);
+        $manager->flush();
+        return $this->redirectToRoute('indexDivers');
+    }
+
+
+
+
+
+
 
 }
 

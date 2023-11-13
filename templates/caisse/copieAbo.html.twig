@@ -21,6 +21,7 @@
             <div class="onglets active" data-anim='1'>Reliures</div>
             <div class="onglets" data-anim='2'>Papiers</div>
             <div class="onglets" data-anim='3'>Photos</div>
+            <div class="onglets" data-anim='4'>Autres</div>
         </div>
         <div class="reliures contenu activeContenu" data-anim='1'>
             {% for catReliure in catReliures %}
@@ -69,6 +70,17 @@
             </div>
             {% endif %}
             {% endfor %}
+            {% endfor %}
+        </div>
+        <div class="photos contenu" data-anim='4'>
+        <h3>Autres services</h3>
+            <hr> 
+            {% for diver in divers %}
+                <div class="content"> 
+                <p>{{ diver.name }}</p>
+                <p>{{ diver.price }}€</p>
+                <input type="number" value=0 dataprice={{ diver.price }} dataname="{{ diver.name }}" datacat="Autre service">
+                </div>
             {% endfor %}
         </div>
     </div>

@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+{% set position = 3 %} {# menu anchor variable #}
+{% block title %}
+{% set title = '' %}
+{% if data.id is defined %}
+{% set title = 'Administation de Xtra Copy Tournai : Modification prix service diverss' %}
+{% else %}
+{% set title = 'Administation de Xtra Copy Tournai : Ajout un prix service diver' %}
+{% endif %}
+{{ title }}
+{% endblock %}
+{% block body %}
+{% if data.id is defined %}
+<h1>Administation de Xtra Copy Tournai : Modification prix diver : {{ data.Name }}</h1>
+{% else %}
+<h1>Administation de Xtra Copy Tournai : Ajout prix divers</h1>
+{% endif %}
+<div class="cadrePrincipal">
+    {% if data.id is defined %}
+    <h2>Modification prix diver</h2>
+    {% else %}
+    <h2>Ajout d'un prix diver</h2>
+    {% endif %}
+    {{form_start(form)}}
+    <div class="form-groupe">
+        {{ form_label(form.name) }}
+        {{ form_widget(form.name) }}
+        {{ form_errors(form.name) }}
+    </div>
+    <div class="form-groupe">
+        {{ form_label(form.price) }}
+        {{ form_widget(form.price) }}
+        {{ form_errors(form.price) }}
+    </div>
+    <div class="button">
+        <button type="submit" class="send">Enregister</button>
+    </div>
+    {{form_end(form)}}
+    <a href="{{ path('indexDivers')}}" class="retour">Retour</a>
+</div>
+{% include "partials/_menuAdmin.html.twig" %}
+{% endblock %}

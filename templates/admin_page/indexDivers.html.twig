@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+{% set position = 3 %} {# menu anchor variable #}
+{% block title %}Admin Xtra Copy: Prix Photos {% endblock %}
+{% block body %}
+<h1>Administation de Xtra Copy Tournai : Prix Photos</h1>
+<div class="cadrePrincipal">
+
+   <div class="list">
+   <a href="{{ path('addDivers')}}" class='ajoute'>Ajouter</a>
+   {% for message in app.flashes('success') %}
+    <div class="alert alert-success mt-2">
+        {{ message }}
+    </div>
+    {% endfor %}
+        <table>
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Prix</th>
+                <th>Actions</th>
+            </tr>
+       </thead>
+        <tbody>
+            {% for pagination in paginations %}
+            <tr>
+                <td>{{pagination.name}}</td>
+                <td>{{pagination.price | round(2)}}</td>
+                <td class="link"><a href="{{path('editDivers',{'id': pagination.id})}}" class="modif">Modifier</a>
+                    <a href="{{path('deleteDivers',{'id': pagination.id})}}" class="delete">Supprimer</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody> 
+        </table>
+        {{ knp_pagination_render(paginations) }}
+    </div>
+    <a href="{{ path('indexParametre')}}" class="retour">Retour</a> 
+
+</div>
+{% include "partials/_menuAdmin.html.twig" %}
+{% endblock %}

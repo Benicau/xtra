@@ -2,9 +2,10 @@
 
 namespace App\Repository;
 
+use DateTime;
 use App\Entity\Invoices;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Invoices>
@@ -38,6 +39,57 @@ class InvoicesRepository extends ServiceEntityRepository
 
     return $queryBuilder->getQuery()->getResult();
     }
+
+    public function findTotalForCurrentYear($currentYear): ?float
+    {
+        $startDate = new \DateTime("$currentYear-01-01");
+        $endDate = new \DateTime("$currentYear-12-31");
+
+        return $this->createQueryBuilder('i')
+            ->select('SUM(i.total) as totalForCurrentYear')
+            ->andWhere('i.date BETWEEN :startDate AND :endDate')
+            ->setParameter('startDate', $startDate)
+            ->setParameter('endDate', $endDate)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+
+    public function findTotalForCurrentMonth($currentYear, $currentMonth): ?float
+    {
+        $startDate = new \DateTime("$currentYear-$currentMonth-01");
+        $endDate = new \DateTime("$currentYear-$currentMonth-" . $startDate->format('t')); // t représente le dernier jour du mois
+
+        return $this->createQueryBuilder('i')
+            ->select('SUM(i.total) as totalForCurrentMonth')
+            ->andWhere('i.date BETWEEN :startDate AND :endDate')
+            ->setParameter('startDate', $startDate)
+            ->setParameter('endDate', $endDate)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+   
+    public function findTotalForCurrentDay(): ?float
+{
+    
+
+    $today = new \DateTime('now');
+    $startDate = new \DateTime($today->format('Y-m-d'));
+    $endDate = clone $today;
+
+    $endDate->modify('+1 day');
+
+    
+    return $this->createQueryBuilder('i')
+        ->select('SUM(i.total) as totalForCurrentDay')
+        ->andWhere('i.date BETWEEN :startDate AND :endDate')
+        ->setParameter('startDate', $startDate)
+        ->setParameter('endDate', $endDate)
+        ->getQuery()
+        ->getSingleScalarResult();
+}
+
 
 
     public function save(Invoices $entity, bool $flush = false): void

@@ -4,6 +4,24 @@
 {% block body %}
 <h1>Administation de Xtra Copy Tournai : Accueil</h1>
 <div class="cadrePrincipal">
+    <div class="stat">
+        <div class="statMag stat1">
+            <h2>Résultat du magasin</h2>
+            <ul>
+                <li>Année <span>{{ totalForCurrentYear|number_format(2, '.') }} €</span></li>
+                <li>Mois <span>{{ totalForCurrentMonth|number_format(2, '.') }} €</span></li>
+                <li>Jour <span>{{ totalForCurrentDay|number_format(2, '.') }} €</span></li>
+            </ul>
+        </div>
+        <div class="statApi stat1">
+            <h2>Résultat de l'API</h2>
+            <ul>
+                <li>Année</li>
+                <li>Mois</li>
+                <li>Jour</li>
+            </ul>
+        </div>
+    </div>
 </div>
 {% include "partials/_menuAdmin.html.twig" %}
 {% endblock %}

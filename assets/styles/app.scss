@@ -127,7 +127,23 @@
     }
 }
 
-
+.newAbo{
+    a{
+        background-color: #1EABDC;
+        color: white;
+        text-decoration: none;
+        padding: 7px;
+        font-size: 22px;
+        border-radius: 5px;
+        position: absolute;
+        top:20px;
+        right: 50px;
+        opacity: 0.8;
+        &:hover{
+            opacity: 1;
+        }
+    }
+}
 // General styles
 body {
     font-family: roboto;
@@ -813,7 +829,7 @@ h1 {
             font-weight: 400;
             cursor: pointer;
 
-            &:not(:nth-child(3)) {
+            &:not(:nth-child(4)) {
                 border-right: 1px solid #333;
             }
 
@@ -1172,8 +1188,12 @@ h2 {
         display: flex;
         justify-content: center;
         gap: 80px;
-        flex-wrap: wrap;
+        flex-wrap: wrap; 
+        width: 90%;
+        margin: auto;
         margin-top: 100px;
+       
+
 
         li {
             width: 200px;
@@ -1372,5 +1392,54 @@ h2 {
                 }
             }
         }
+    }
+}
+
+.stat{
+    display: flex;
+    position: absolute;
+    top:30%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    justify-content: space-around;
+    width: 70%;
+    background-color:#1EABDC;
+    height: 180px;
+    border-radius: 8px;
+    text-align: center;
+    padding: 20px;
+    h2{
+        padding: 0;
+        font-weight: bold;
+        margin-bottom: 25px;
+    }
+    .stat1{
+        background-color: #C4D7ED;
+        padding: 20px;
+        border-radius: 5px;
+        width: 450px;
+        ul{
+            display: flex;
+            justify-content: space-between;
+            li{
+                width: 30%;
+                background-color: #F3EB19;
+                padding: 5px;
+                position: relative;
+                height: 59px;
+                span{
+                    width: 100%;
+                    font-size: 20px;
+                    color: red;
+                    font-weight: bold;
+                    margin-top: 15px;
+                    position: absolute;
+                    top: 15px;
+                    left: 0;
+                }
+            }
+
+        }
+
     }
 }

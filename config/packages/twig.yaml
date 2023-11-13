@@ -6,6 +6,5 @@ when@test:
         strict_variables: true
 
 framework:
-    # ...
     error_controller: 'App\Controller\ErrorController::showException'
 

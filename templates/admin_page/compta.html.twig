@@ -68,7 +68,7 @@
         {{ knp_pagination_render(invoices) }}
     </div>
     <div class="tcompta">
-    <h2>Total = {{ totalAmount }} €</h2>
+    <h2>Total = {{ totalAmount|number_format(2, '.') }} €</h2>
     </div>
 
 </div>

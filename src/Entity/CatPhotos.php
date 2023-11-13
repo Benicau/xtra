@@ -59,7 +59,7 @@ class CatPhotos
         return $this;
     }
 
-    public function removeBinding(Photos $photo): static
+    public function removePhoto(Photos $photo): static
     {
         if ($this->photos->removeElement($photo)) {
             // set the owning side to null (unless already changed)

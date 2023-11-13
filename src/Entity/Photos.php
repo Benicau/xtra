@@ -23,7 +23,7 @@ class Photos
     #[Assert\NotNull]
     private ?float $price = null;
 
-    #[ORM\ManyToOne(inversedBy: 'Photos')]
+    #[ORM\ManyToOne(inversedBy: 'PhotosId')]
     private ?CatPhotos $CatPhotos = null;
 
     public function getId(): ?int
