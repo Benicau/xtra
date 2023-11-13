@@ -154,7 +154,7 @@ class CaisseController extends AbstractController
      * @param PrintQueue $prints
      * @return Response
      */
-    #[Route('/dashboard/apiCaisse/print/{id}/delete', name: 'DeletePrint')]
+    #[Route('/caisse/apiCaisse/print/{id}/delete', name: 'DeletePrint')]
     public function deletePrint(EntityManagerInterface $manager, PrintQueue $prints ): Response
     {
         $this->addFlash('success', "Travail supprimé");
